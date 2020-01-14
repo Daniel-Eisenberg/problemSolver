@@ -48,12 +48,9 @@ void MySerialServer::close() {
     ::close(socket1);
 }
 
-bool MySerialServer::getCloseServer() {
-    return close_server;
-}
 
 int hadleclients(const int& socket, const sockaddr_in& address, const ClientHandler& client_handler) {
-    while(!MySerialServer::getCloseServer()) {
+    while(!close_server) {
         struct timeval tv;
         tv.tv_sec = 2;
         setsockopt(socket1, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);

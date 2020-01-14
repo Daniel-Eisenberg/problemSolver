@@ -11,7 +11,6 @@
 #include <iostream>
 #include <netinet/in.h>
 #include <zconf.h>
-#include "MySerialServer.h"
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -23,9 +22,6 @@ static std::condition_variable cv;
 class MySerialServer : public Server {
     virtual int open(int port, ClientHandler& clinethandler);
     virtual void close();
-
-public:
-    static bool getCloseServer();
 };
 
 
