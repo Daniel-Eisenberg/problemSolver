@@ -10,10 +10,11 @@
 #include "CacheManger.h"
 #include "Solver.h"
 
-class MyTestClientHandler : public ClientHandler {
+template <typename P,typename S>
 
-    Solver solver;
-    CacheManager cm;
+class MyTestClientHandler : public ClientHandler {
+    Solver<P, S>* solver;
+    CacheManager* cm;
 public:
     virtual void handleClient(std::istream InputStream, std::ostream OutputStream);
 

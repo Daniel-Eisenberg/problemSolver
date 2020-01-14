@@ -17,14 +17,12 @@ using namespace std;
 class CacheManager{
     std::unordered_map <std::string, bool> memoryCache;
 public:
-
+    CacheManager(){};
     virtual ~CacheManager(){};
 
     virtual bool exist(string key) = 0;
     virtual string get(string key) = 0;
     virtual void insert(string key, string record) = 0;
-
-
 
 };
 
