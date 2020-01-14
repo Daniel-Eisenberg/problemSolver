@@ -21,8 +21,8 @@ public:
     virtual ~CacheManager(){};
 
     virtual bool exist(string key) = 0;
-    virtual void pull(string key) = 0;
-    virtual void save(string key, string record) = 0;
+    virtual string get(string key) = 0;
+    virtual void insert(string key, string record) = 0;
 
 
 

@@ -29,10 +29,10 @@ void MyClientHandler::handleClient(int client_socket) {
 
         string s_md5 = md5(s);
         if (cm.exist(s_md5)) {
-            result = cm.pull(s_md5)
+            result = cm.get(s_md5)
         } else {
             result = solver.solve(s);
-            cm.save(s_md5, result);
+            cm.insert(s_md5, result);
         }
 
         send(client_socket, result, strlen(result), 0);

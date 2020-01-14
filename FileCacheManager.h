@@ -21,8 +21,8 @@ public:
     ~FileCacheManager();
 
     virtual bool exist(string key);
-    virtual void pull(string key);
-    virtual void save(string key, string record);
+    string void get(string key);
+    virtual void insert(string key, string record);
 
 };
 
