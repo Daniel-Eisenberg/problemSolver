@@ -12,7 +12,7 @@ void MyTestClientHandler::handleClient(std::istream InputStream, std::ostream Ou
         return false; ////FINISH CONNECTION!
 
     if (cm.exist(line)) {
-        result = cm.pull(line)
+        result = cm.get(line)
     } else {
         result = solver.solve(line);
     }

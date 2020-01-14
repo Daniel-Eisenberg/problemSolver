@@ -6,16 +6,23 @@
 #define EX4_CACHEMANGER_H
 
 #include <string>
+#include <list>
+#include <unordered_map>
+#include <functional>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
 class CacheManager{
-
-
+    std::unordered_map <std::string, bool> memoryCache;
 public:
-    virtual bool exist(string record) = 0;
-    virtual void pull(string record) = 0;
-    virtual void save(string record) = 0;
+
+    virtual ~CacheManager(){};
+
+    virtual bool exist(string key) = 0;
+    virtual string get(string key) = 0;
+    virtual void insert(string key, string record) = 0;
 
 
 

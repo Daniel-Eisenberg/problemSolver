@@ -15,7 +15,7 @@ class MyClientHandler : public ClientHandler {
     Solver solver;
     CacheManager cm;
 public:
-    virtual void handleClient(std::istream InputStream, std::ostream OutputStream);
+    virtual void handleClient(int socket_server);
 
 };
 
