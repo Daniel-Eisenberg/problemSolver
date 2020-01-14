@@ -16,7 +16,11 @@ int main(){
     ClientHandler* clientHandler = new MyClientHandler<string,string>(solver, cacheManager);
 
 
-    server->open(5600, clientHandler);
+    server->open(5400, clientHandler);
+
+    sleep(10);
+    server->close();
+    return 0;
 }
 
 namespace boot {

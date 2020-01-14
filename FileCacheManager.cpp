@@ -42,7 +42,7 @@ string FileCacheManager::get(string key) {
 void FileCacheManager::insert(string key, string record) {
     std::fstream file("../"+key,ios::out|ios::binary);
 
-    file.write(record.c_str(), sizeof(record));
+    //file.write(record.c_str(), sizeof(record));
     file.close();
     return;
 }

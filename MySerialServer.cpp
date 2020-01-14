@@ -37,7 +37,8 @@ int MySerialServer::open(int port, ClientHandler* client_handler) {
         }
 
         thread clienthandle(handleClients, socket1, address, client_handler);
-        clienthandle.detach();
+//        clienthandle.detach();
+        clienthandle.join();
         return 0;
 }
 
