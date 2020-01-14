@@ -15,9 +15,14 @@
 #include "CacheManger.h"
 
 class FileCacheManager : CacheManager{
-
+    string presist;
+public:
     FileCacheManager();
     ~FileCacheManager();
+
+    virtual bool exist(string key);
+    virtual void pull(string key);
+    virtual void save(string key, string record);
 
 };
 

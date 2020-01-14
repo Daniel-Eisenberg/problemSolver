@@ -2,20 +2,43 @@
 // Created by Daniel Eisenberg on 12/01/2020.
 //
 
-void MyClientHandler::handleClient(std::istream InputStream, std::ostream OutputStream) {
-//    string result;
-//    string line = InputStream.getline();
-//
-//    if (line == "end")
-//        return false; ////FINISH CONNECTION!
-//
-//    if (cm.exist(line)) {
-//        result = cm.pull(line)
-//    } else {
-//        result = solver.solve(line);
-//    }
-//
-//    OutputStream.write(result); ////MUST SEND RESULT TO CLIENT BEFORE FINISH - ELSE CLIENT WONT WRITE AGAIN
-//    //// Use 'flush'
+#include <ostream>
+#include <sys/socket.h>
+#include <iostream>
+#include <zconf.h>
+#include "MyClientHandler.h"
+#include "md5.h"
 
+using namespace std;
+
+void MyClientHandler::handleClient(int client_socket) {
+    string s = "";
+    char* result;
+    char message[1024] = {0};
+
+    while (true) {
+        read(client_socket, message, 1024);
+        for (int i = 0; i < 1024; i++) {
+            if (message[i] == '\0')
+                break;
+            s += message[i];
+        }
+
+        if (s == "end")
+            break;
+
+        string s_md5 = md5(s);
+        if (cm.exist(s_md5)) {
+            result = cm.pull(s_md5)
+        } else {
+            result = solver.solve(s);
+            cm.save(s_md5, result);
+        }
+
+        send(client_socket, result, strlen(result), 0);
+        cout << flush;
+        memset(result, 0, sizeof(result));
+    }
+
+    return;
 }
