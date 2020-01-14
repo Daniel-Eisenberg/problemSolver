@@ -5,7 +5,7 @@
 #ifndef EX4_SEARCHABLE_H
 #define EX4_SEARCHABLE_H
 
-class Searchable{
+class Searchable {
 
 
 public:

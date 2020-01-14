@@ -13,7 +13,7 @@ namespace server_side {
 
     public:
         virtual int open(int port, ClientHandler& clinethandler) = 0;
-        virtual int close() = 0;
+        virtual void close() = 0;
 
     };
 }
