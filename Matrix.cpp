@@ -25,56 +25,90 @@ void Matrix::setInitialState() {
     down = new myPoint(1, 0, this->matrix->at(1).at(0));
     right = new myPoint(0, 1, this->matrix->at(0).at(1));
     this->all_possible_states = new std::vector<State<myPoint> *>();
-    auto s1 = new State<myPoint>(right, right->value, this->state);
-    auto s2 = new State<myPoint>(down, down->value, this->state);
+    auto s1 = new State<myPoint>(right, right->value, nullptr);
+    auto s2 = new State<myPoint>(down, down->value, nullptr);
     this->all_possible_states->push_back(nullptr);
     this->all_possible_states->push_back(s2);
     this->all_possible_states->push_back(nullptr);
     this->all_possible_states->push_back(s1);
-    //////////
-    ////////// insert to all saved states
+    std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->x);
+    std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->x);
+    std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
+    std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
+    this->all_saved_states->insert(pair1);
+    this->all_saved_states->insert(pair2);
 
-    std::pair<int, int> _s1 (s1->getState()->x, s1->getState()->x);
-    std::pair<int, int> _s2 (s2->getState()->x, s2->getState()->x);
-    this->all_saved_states[_s1] = s1;
+}
 
+void Matrix::updatedirection(std::pair<int, int> point, std::string _case) {
+
+    //set point
+    int location = 0;
+    if (_case == "up")
+        point = std::make_pair(this->state->getState()->x - 1, this->state->getState()->y);
+    else if (_case == "down") {
+        point = std::make_pair(this->state->getState()->x + 1, this->state->getState()->y);
+        location = 1;
+    }
+    else if (_case == "right") {
+        point = std::make_pair(this->state->getState()->x, this->state->getState()->y + 1);
+        location = 2;
+    }
+    else {
+        point = std::make_pair(this->state->getState()->x, this->state->getState()->y - 1);
+        location = 3;
+    }
+
+
+    auto iter = this->all_saved_states->find(point);
+    if (iter != this->all_saved_states->end())
+        this->all_possible_states->at(location) = iter->second;
+    else {
+        auto p = new myPoint(this->state->getState()->x - 1, this->state->getState()->y,
+                             this->matrix->at(this->state->getState()->x - 1).at(this->state->getState()->y));
+        auto up_state = new State<myPoint>(p, p->value, nullptr);
+        this->all_possible_states->at(location) = up_state;
+        auto pr = std::make_pair(point, up_state);
+        this->all_saved_states->insert(pr);
+    }
 }
 /**
  * index 0 - up
  * index 1 - down
- * index 2 - left
- * index 3 - right
+ * index 2 - right
+ * index 3 - left
  */
 void Matrix::setAllPossibleStates() {
 
-    myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
-    bool has_up = this->state->getState()->y - 1 >= 0;
-    bool has_down = this->state->getState()->y + 1 <= this->matrix->size();
-    bool has_left = this->state->getState()->x - 1 >= 0;
-    bool has_right = this->state->getState()->x + 1 <= this->matrix->size();
+    //myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
+    bool has_up = this->state->getState()->x - 1 >= 0;
+    bool has_down = this->state->getState()->x + 1 <= this->matrix->size();
+    bool has_left = this->state->getState()->y - 1 >= 0;
+    bool has_right = this->state->getState()->y + 1 <= this->matrix->size();
     //check up
+    std::pair<int, int> point;
     if (has_up) {
-
+        updatedirection(point, "up");
     } else {
         this->all_possible_states->at(0) = nullptr;
     }
     //check down
     if (has_down) {
-
+        updatedirection(point, "down");
     } else {
-        this->all_possible_states->at(0) = nullptr;
+        this->all_possible_states->at(1) = nullptr;
     }
     //check right
     if (has_right) {
-
+        updatedirection(point, "right");
     } else {
-        this->all_possible_states->at(0) = nullptr;
+        this->all_possible_states->at(2) = nullptr;
     }
     //check left
     if (has_left) {
-
+        updatedirection(point, "left");
     } else {
-        this->all_possible_states->at(0) = nullptr;
+        this->all_possible_states->at(3) = nullptr;
     }
 
 }
@@ -87,15 +121,7 @@ bool Matrix::visited(myPoint *p) {
     return p->visited;
 }
 
-/**
- * -----------------implemantion---------------------
- *
- *      1. update the new "all posible states" vector"
- *      2. make sure deleting
- *
- *
- * --------------------------------------------------
- */
+
 void Matrix::updateState(State<myPoint> *next) {
 
     this->state = next;
