@@ -5,6 +5,11 @@
 
 #include "StringReverser.h"
 
+/**
+ * Implenetation of solve to reverse a string
+ * @param prob
+ * @return
+ */
 string StringReverser::solve(string prob) {
     prob = reverseStr(prob);
     return prob;
