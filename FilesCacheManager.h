@@ -46,7 +46,7 @@ public:
         while (getline(file, line)) {
             result += line;
         }
-        
+
         file.close();
         return result;
     }
