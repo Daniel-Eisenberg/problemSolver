@@ -4,14 +4,14 @@
 
 
 #include "MySerialServer.h"
+#include "ClientHandler.h"
+#include "MyClientHandler.h"
 
 using namespace std;
 
-int hadleclients(const int& socket, const sockaddr_in& address, const ClientHandler& client_handler);
+int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
 
-int MySerialServer::open(int port, ClientHandler& client_handler) {
-
-    
+int MySerialServer::open(int port, ClientHandler* client_handler) {
 
 
         if (socket1 == -1) {
@@ -36,8 +36,9 @@ int MySerialServer::open(int port, ClientHandler& client_handler) {
             return -3;
         }
 
-        thread clienthandle(hadleclients,socket1, address, client_handler);
-        clienthandle.detach();
+        thread clienthandle(handleClients, socket1, address, client_handler);
+//        clienthandle.detach();
+        clienthandle.join();
         return 0;
 }
 
@@ -50,9 +51,12 @@ void MySerialServer::close() {
     ::close(socket1);
 }
 
+bool MySerialServer::getCloseServer() {
+    return close_server;
+}
 
-int hadleclients(const int& socket, const sockaddr_in& address, const ClientHandler& client_handler) {
-    while(!close_server) {
+int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler) {
+    while(!MySerialServer::getCloseServer()) {
         struct timeval tv;
         tv.tv_sec = 2;
         setsockopt(socket1, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
@@ -62,7 +66,7 @@ int hadleclients(const int& socket, const sockaddr_in& address, const ClientHand
             std::cerr << "Error accepting client" << std::endl;
             return -4;
         }
-        client_handler.handleClient(client_socket);
+        client_handler->handleClient(client_socket);
     }
     close_server = false;
     cv.notify_all();
