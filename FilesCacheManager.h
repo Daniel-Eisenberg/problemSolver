@@ -13,28 +13,31 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <sys/stat.h>
 #include "CacheManager.h"
+#include "md5.h"
 
 using namespace std;
 
+template <typename P, typename S>
 class FilesManager {
 public:
     FilesManager(){}
 
     ~FilesManager(){};
 
-    void logFile(string key, string obj) {
-        string filename = key;
-        std::fstream file("../presist/"+filename,ios::out);
+    void logFile(P key, S solution) {
+        string filename = key + ".txt";
+        std::fstream file("../"+filename,ios::out);
 
-        file.write(obj.c_str(), sizeof(obj.c_str()));
+        file << solution;
         file.close();
         return;
     }
 
-    string getFile(string key) {
-        string filename = key;
-        std::fstream file("../presist/"+filename,ios::in);
+    string getFile(P key) {
+        string filename = key + ".txt";
+        std::fstream file("../"+filename,ios::in);
         if(!file) {
             cout << "ERROR: Open file for reading error, key doesn't exists in cache and files.";
         }
@@ -43,13 +46,14 @@ public:
         while (getline(file, line)) {
             result += line;
         }
+        
         file.close();
         return result;
     }
 
-    bool isFileExists(string key) {
-        string filename = key;
-        std::fstream file("../presist/"+filename,ios::in);
+    bool isFileExists(P key) {
+        string filename = key + ".txt";
+        std::fstream file("../"+filename,ios::in);
         if(!file) {
             return false;
         }
@@ -58,25 +62,26 @@ public:
 };
 
 
-template <typename P>
-class FilesCacheManager : public CacheManager<P,string> {
+template <typename P, typename S>
+class FilesCacheManager : public CacheManager<P,S> {
     int capacity = 0;
     std::list<std::string> lru;
     std::unordered_map <std::string, std::pair<string, std::list<std::string>::iterator>> memoryCache;
+    std::mutex mtx_cm;
 public:
     FilesCacheManager<P,string>(int capacity) {
         this->capacity = capacity;
-
     }
 
     ~FilesCacheManager(){};
 
-    void insert(P problem, string obj) {
+    void insert(P problem, S solution) {
+        mtx_cm.try_lock();
         string key = hashKey(problem);
 
         // Log object to files
-        FilesManager filesManager;
-        filesManager.logFile(key, obj);
+        FilesManager<P,S> filesManager;
+        filesManager.logFile(key, solution);
 
         // Key not in cache
         if (this->memoryCache.find(key) == this->memoryCache.end()) {
@@ -91,18 +96,20 @@ public:
 
         // Update lru list and memoryCache with the inserted element
         lru.push_front(key);
-        this->memoryCache[key] = {obj, lru.begin()};
+        this->memoryCache[key] = {solution, lru.begin()};
+        mtx_cm.unlock();
     }
 
     string get(P problem) {
-        string obj;
+        mtx_cm.try_lock();
+        string solution;
         string key = hashKey(problem);
         auto item = this->memoryCache.find(key);
 
         // Key not in cache -> search for key in files
         if (item == this->memoryCache.end()) {
-            FilesManager filesManager;
-            obj = filesManager.getFile(key);
+            FilesManager<P,S> filesManager;
+            solution = filesManager.getFile(key);
 
             // Cache is full -> remove LRU element from lru list and memoryCache to free space for the new element
             if (static_cast<int>(lru.size()) == capacity) {
@@ -112,31 +119,36 @@ public:
             }
         } else { // Key in cache -> free space in lru list to put the element in front
             lru.erase((std::list<std::string>::iterator) this->memoryCache[key].second);
-            obj = item->second.first;
+            solution = item->second.first;
         }
 
         // Update lru list and cache then return the object
         lru.push_front(key);
-        this->memoryCache[key] = {obj, lru.begin()};
+        this->memoryCache[key] = {solution, lru.begin()};
+        mtx_cm.unlock();
 
-        return obj;
+        return solution;
     }
 
     bool isExists(P problem) {
+        mtx_cm.try_lock();
         string key = hashKey(problem);
         auto item = this->memoryCache.find(key);
 
         // Key not in cache -> search for key in files
         if (item == this->memoryCache.end()) {
-            FilesManager filesManager;
-            return filesManager.isFileExists(key);
-        } else
+            FilesManager<P,S> filesManager;
+            bool isFileExists = filesManager.isFileExists(key);
+            mtx_cm.unlock();
+            return isFileExists;
+        } else {
+            mtx_cm.unlock();
             return true;
+        }
     }
 
     static string hashKey(P key) {
-        hash<P> stdHash = NULL;
-        return md5(stdHash(key));
+        return md5(key);
     }
 };
 

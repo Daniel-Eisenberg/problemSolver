@@ -3,10 +3,11 @@
 #include "Solver.h"
 #include "Server.h"
 #include "StringReverser.h"
-#include "FileCacheManager.h"
+#include "FilesCacheManager.h"
 #include "MySerialServer.h"
 #include "MyClientHandler.h"
 #include "MyTestClientHandler.h"
+#include "MyParallelServer.h"
 
 
 namespace boot {
@@ -14,9 +15,9 @@ namespace boot {
     class Main {
     public:
         int main() {
-            server_side::Server* server = new MySerialServer();
+            server_side::Server* server = new MyParallelServer(3);
             Solver<string, string>* solver = new StringReverser();
-            CacheManager<string,string>* cacheManager = new FileCacheManager();
+            CacheManager<string,string>* cacheManager = new FilesCacheManager<string,string>(2);
             ClientHandler* clientHandler = new MyTestClientHandler(solver, cacheManager);
 
             server->open(5400, clientHandler);

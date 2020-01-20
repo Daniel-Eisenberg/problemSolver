@@ -18,17 +18,16 @@
 
 
 class MyClientHandler : public ClientHandler {
-    Solver<vector<vector<int>>, string>* solver;
-    FilesCacheManager<vector<vector<int>>>* cm;
+    Solver<string, string>* solver;
+    FilesCacheManager<string, string>* cm;
 public:
-    MyClientHandler(Solver<vector<vector<int>>, string>* solver, FilesCacheManager<vector<vector<int>>>* cm) {
+    MyClientHandler(Solver<string, string>* solver, FilesCacheManager<string, string>* cm) {
         this->solver = solver;
         this->cm = cm;
     }
     virtual void handleClient(int client_socket);
     static vector<vector<int>> reconstructMatrix(string obj);
     static std::vector<string> split(string str, string delimiter);
-
 };
 
 

@@ -9,6 +9,7 @@
 #include <vector>
 #include "MyClientHandler.h"
 #include "md5.h"
+#include "MyParallelServer.h"
 
 using namespace std;
 
@@ -30,17 +31,18 @@ void MyClientHandler::handleClient(int client_socket) {
         matrix_str.append("\n");
     }
 
-    vector<vector<int>> matrix = reconstructMatrix(s);
-    if (cm->isExists(matrix)) {
-        result = cm->get(matrix);
+//    vector<vector<int>> matrix = reconstructMatrix(s);
+    if (cm->isExists(matrix_str)) {
+        result = cm->get(matrix_str);
     } else {
-        result = string(solver->solve(matrix));
-        cm->insert(matrix, result);
+        result = string(solver->solve(matrix_str));
+        cm->insert(matrix_str, result);
     }
     result += "\n";
 
     send(client_socket, result.c_str(), strlen(result.c_str()), 0);
     cout << flush;
+    MyParallelServer::currentParallel--;
     return;
 }
 
