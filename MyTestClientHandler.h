@@ -5,18 +5,25 @@
 #ifndef EX4_MYTESTCLIENTHANDLER_H
 #define EX4_MYTESTCLIENTHANDLER_H
 
-
+#include <ostream>
+#include <sys/socket.h>
+#include <iostream>
+#include <zconf.h>
+#include "md5.h"
 #include "ClientHandler.h"
-#include "CacheManger.h"
+#include "CacheManager.h"
 #include "Solver.h"
 
+
 class MyTestClientHandler : public ClientHandler {
-
-    Solver solver;
-    CacheManager cm;
+    Solver<string, string>* solver;
+    CacheManager<string, string>* cm;
 public:
-    virtual void handleClient(std::istream InputStream, std::ostream OutputStream);
-
+    MyTestClientHandler(Solver<string,string>* solver, CacheManager<string,string>* cm) {
+        this->solver = solver;
+        this->cm = cm;
+    }
+    virtual void handleClient(int client_socket);
 };
 
 

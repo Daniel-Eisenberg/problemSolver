@@ -12,9 +12,8 @@ namespace server_side {
     class Server {
 
     public:
-        virtual int open(int port, ClientHandler& clinethandler) = 0;
-        virtual int close() = 0;
-
+        virtual int open(int port, ClientHandler* clientHandler) = 0;
+        virtual void close() = 0;
     };
 }
 

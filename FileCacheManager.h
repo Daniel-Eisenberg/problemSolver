@@ -12,12 +12,17 @@
 
 
 
-#include "CacheManger.h"
+#include "CacheManager.h"
 
-class FileCacheManager : CacheManager{
-
+class FileCacheManager : public CacheManager<string,string>{
+    std::unordered_map <std::string, bool>* memoryCache;
+public:
     FileCacheManager();
-    ~FileCacheManager();
+    ~FileCacheManager(){};
+
+    virtual bool isExists(string key);
+    virtual string get(string key);
+    virtual void insert(string key, string record);
 
 };
 

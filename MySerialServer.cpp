@@ -2,20 +2,18 @@
 // Created by Daniel Eisenberg on 12/01/2020.
 //
 
-#include <sys/socket.h>
-#include <iostream>
-#include <netinet/in.h>
-#include <zconf.h>
-#include "MySerialServer.h"
-#include <vector>
-using namespace std;
-/**
- * ---------------------TO DO----------------------
- * need time put for waiting in it needs to run i a unique thread.
- */
-int MySerialServer::open(int port, ClientHandler& clientHandler) {
 
-        int socket1 = socket(AF_INET, SOCK_STREAM, 0);
+#include "MySerialServer.h"
+#include "ClientHandler.h"
+#include "MyClientHandler.h"
+
+using namespace std;
+
+int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
+
+int MySerialServer::open(int port, ClientHandler* client_handler) {
+
+
         if (socket1 == -1) {
             std::cerr << "Could not create server socket" << std::endl;
             return -1;
@@ -38,41 +36,38 @@ int MySerialServer::open(int port, ClientHandler& clientHandler) {
             return -3;
         }
 
-
-        //accept client
-        int client_socket = accept(socket1, (struct sockaddr *) &address, (socklen_t *) &address);
-        if (client_socket == -1) {
-            std::cerr << "Error accepting client" << std::endl;
-            return -4;
-        }
-
-        // loop condition updated by the main function
-
-        char message[1024] = {0};
-        while () {
-
-            read(client_socket, message, 1024);
-            clientHandler.handleClient(read(client_socket, message, 1024), ouputstream); //// fix outputstream!!!!!!!!!!!!!!!!!!!!!
-            int i;
-            string s;
-            for (i = 0; i < 1024; i++) {
-                if (message[i] == '\0')
-                    break;
-                s += message[i];
-            }
-
-        }
-        close(socket1);
-        //update the main thread that the thread is finished
-        Tcp_Server::killServerThread(1);
-        CommandUtil::cv.notify_all();
+        thread clienthandle(handleClients, socket1, address, client_handler);
+//        clienthandle.detach();
+        clienthandle.join();
         return 0;
-
-
 }
 
 
 
 void MySerialServer::close() {
+    close_server = true;
+    unique_lock<std::mutex> ul(mtx);
+    cv.wait(ul, []{return !close_server;});
+    ::close(socket1);
+}
 
+bool MySerialServer::getCloseServer() {
+    return close_server;
+}
+
+int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler) {
+    while(!MySerialServer::getCloseServer()) {
+        struct timeval tv;
+        tv.tv_sec = 2;
+        setsockopt(socket1, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+        //accept client
+        int client_socket = accept(socket, (struct sockaddr *) &address, (socklen_t *) &address);
+        if (client_socket == -1) {
+            std::cerr << "Error accepting client" << std::endl;
+            return -4;
+        }
+        client_handler->handleClient(client_socket);
+    }
+    close_server = false;
+    cv.notify_all();
 }
