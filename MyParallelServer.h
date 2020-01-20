@@ -10,7 +10,7 @@
 using namespace server_side;
 class MyParallelServer : public Server {
     virtual int open(int port, ClientHandler& clinethandler);
-    virtual int close();
+    virtual void close();
 };
 
 

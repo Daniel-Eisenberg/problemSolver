@@ -11,6 +11,8 @@ int hadleclients(const int& socket, const sockaddr_in& address, const ClientHand
 
 int MySerialServer::open(int port, ClientHandler& client_handler) {
 
+    
+
 
         if (socket1 == -1) {
             std::cerr << "Could not create server socket" << std::endl;

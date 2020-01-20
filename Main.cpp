@@ -16,5 +16,9 @@ namespace boot {
             CacheManager* cacheManager = new FileCacheManager();
             return 0;
         }
-    }
+    };
 }
+
+
+
+
