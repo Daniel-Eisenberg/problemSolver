@@ -8,6 +8,8 @@
 #include "MyClientHandler.h"
 #include "MyTestClientHandler.h"
 #include "MyParallelServer.h"
+#include "Matrix.h"
+#include "BFS.h"
 
 
 namespace boot {
@@ -31,6 +33,18 @@ namespace boot {
 
 
 int main(){
-    boot::Main main;
-    return main.main();
+    //boot::Main main;
+    //return main.main();
+    vector<vector<int>> vec = {{1,2}, {0,0}};
+    Matrix* a = new Matrix(&vec);
+    BFS<myPoint> t;
+    std::vector<string> *str = t.search(a);
+
+    for (auto r: *str) {
+        cout << r << " ";
+    }
+    cout << endl;
+
+    return 0;
+
 }

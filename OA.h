@@ -5,16 +5,17 @@
 #ifndef EX4_OA_H
 #define EX4_OA_H
 
-#include "Solver.h"
-#include "Searcher.h"
-#include "Matrix.h"
-#include "BFS.h"
+//#include "Solver.h"
+//#include "Searcher.h"
+//#include "Matrix.h"
+//#include "BFS.h"
+//#include "Util.h"
 
 using namespace std;
 
 template <typename Problem, typename Solution>
-class OA : public Solver<Problem, Solution> {
-    virtual Solution solve(Problem problem) {
+//class OA : public Solver<Problem, Solution> {
+    /*virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
         Matrix* matrix = new Matrix(&matrix_vec, State<myPoint>(nullptr, 0, nullptr));
         Searcher<myPoint>* algo = new BFS<myPoint>();
@@ -54,8 +55,8 @@ class OA : public Solver<Problem, Solution> {
         }
         arr.push_back(str);
         return arr;
-    };
-};
+    };*/
+//};
 
 
 #endif //EX4_OA_H

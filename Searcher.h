@@ -6,6 +6,8 @@
 #define EX4_SEARCHER_H
 
 #include "Searchable.h"
+#include "Util.h"
+#include <string>
 
 template <typename T>
 class Searcher {
