@@ -37,6 +37,11 @@ int State<T>::getValue() {
 }
 
 template <typename T>
+void State<T>::setFather(State<T> *f) {
+    this->father = f;
+}
+
+template <typename T>
 std::string State<T>::getDiraction(T *state) {
     if(this->getState() < state) {
         return "up";

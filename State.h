@@ -21,6 +21,7 @@ public:
     State<T>* getFather();
     T* getState();
     int getValue();
+    void setFather(State<T>* f);
     std::string getDiraction(T* state);
 
 };

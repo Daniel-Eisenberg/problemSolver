@@ -67,6 +67,7 @@ public:
     virtual void setFatherstate();
     virtual void setVisit(State<myPoint> *s);
     virtual State<myPoint>* getState();
+    void updatedirection(std::pair<int, int> point, std::string _case);
     bool visited(myPoint* p);
     void setInitialState();
     ~Matrix();

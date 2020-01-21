@@ -14,9 +14,10 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
     queue.push(s->getState());
     while (!queue.empty()) {
 
-        for (auto state: s->getAllPossibleStates()) {
+        for (State<T>* state: s->getAllPossibleStates()) {
             if (state != nullptr && !s->visited(state)) {
                 s->setVisit(state);
+                state->setFather(s);
                 queue.push(state);
             }
         }
@@ -29,7 +30,6 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
     return v;
 }
 
-///check if push_back insert new elemnt in the start of the vector or at the end
 template <typename T>
 std::vector<std::string>* BFS<T>::backtrace(State<T>* state) {
     auto v = new std::vector<std::string>();
