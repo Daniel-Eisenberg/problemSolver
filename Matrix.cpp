@@ -5,10 +5,12 @@
 #include "Matrix.h"
 #include <string>
 
+using namespace std;
+
 Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(matrix) {
     auto *p = new myPoint(0,0, matrix->at(0).at(0));
     this->state = new State<myPoint>(p, p->value, nullptr);
-    this->all_saved_states = new std::unordered_map<std::pair<int,int>, State<myPoint>>();
+    this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
     all_possible_states = nullptr;
     setInitialState();
 };

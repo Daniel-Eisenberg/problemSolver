@@ -17,7 +17,7 @@ protected:
 
 public:
 
-    virtual bool isGoalState(State<S> state) = 0;
+    virtual bool isGoalState() = 0;
     virtual std::vector<State<S>*>* getAllPossibleStates() = 0;
     virtual void setAllPossibleStates() = 0;
     virtual void updateState(State<S> *next) = 0;

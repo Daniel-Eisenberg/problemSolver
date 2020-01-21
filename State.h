@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include "Matrix.h"
 
 template <typename T>
 class State {

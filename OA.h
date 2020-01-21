@@ -5,7 +5,6 @@
 #ifndef EX4_OA_H
 #define EX4_OA_H
 
-#include <altivec.h>
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
@@ -17,7 +16,7 @@ template <typename Problem, typename Solution>
 class OA : public Solver<Problem, Solution> {
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
-        Matrix* matrix = new Matrix(&matrix_vec);
+        Matrix* matrix = new Matrix(&matrix_vec, State<myPoint>(nullptr, 0, nullptr));
         Searcher<myPoint>* algo = new BFS<myPoint>();
         vector<string>* result = algo->search(matrix);
         string result_str = "";

@@ -5,12 +5,12 @@
 #ifndef EX4_MATRIX_H
 #define EX4_MATRIX_H
 
-
-#include "Searchable.h"
 #include "State.h"
+#include "Searchable.h"
 #include <vector>
 #include <MacTypes.h>
 #include <unordered_map>
+#include <map>
 
 struct myPoint {
     int x;
@@ -52,15 +52,14 @@ struct myPoint {
 
 class Matrix : public Searchable<myPoint>{
 
-
     std::vector<std::vector<int>>* matrix;
     std::vector<State<myPoint>*> *all_possible_states;
-    std::unordered_map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
+    std::map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
 
 
 public:
-    Matrix(std::vector<std::vector<int>>* matrix);
-    bool isGoalState(State<myPoint> state);
+    Matrix(std::vector<std::vector<int>> *matrix);
+    bool isGoalState();
     void setAllPossibleStates();
     std::vector<State<myPoint>*>* getAllPossibleStates();
     virtual void updateState(State<myPoint> *next);
