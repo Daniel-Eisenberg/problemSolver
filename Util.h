@@ -5,7 +5,8 @@
 #ifndef EX4_UTIL_H
 #define EX4_UTIL_H
 
-struct myPoint {
+class myPoint {
+public:
     int x;
     int y;
     int value;
@@ -18,7 +19,7 @@ struct myPoint {
         this->visited = false;
     }
 
-    bool operator== (const myPoint& p) {
+    bool operator ==(const myPoint& p) const{
         return (this->x == p.x && this->y == p.y);
     }
 

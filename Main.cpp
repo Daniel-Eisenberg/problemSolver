@@ -35,7 +35,7 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-    vector<vector<int>> vec = {{1,2}, {0,0}};
+    vector<vector<int>> vec = {{3,2,3}, {3,2,0}, {3,3,3}};
     Matrix* a = new Matrix(&vec);
     BFS<myPoint> t;
     std::vector<string> *str = t.search(a);
@@ -44,6 +44,17 @@ int main(){
         cout << r << " ";
     }
     cout << endl;
+
+
+
+//    myPoint *a = new myPoint(0,0,0);
+//    myPoint *b = new myPoint(0,0,0);
+//    State<myPoint>* s1 = new State<myPoint>(a, 0, nullptr);
+//    State<myPoint>* s2 = new State<myPoint>(b, 0, nullptr);
+//    if (*a == *b)
+//        cout << "yes";
+//    if (*s1 == *s2)
+//        cout << " no";
 
     return 0;
 

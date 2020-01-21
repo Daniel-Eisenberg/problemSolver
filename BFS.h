@@ -34,7 +34,7 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
             }
         }
         //update state
-        if (bfs_queue.size() == 1)
+        if (s->isGoalState())
             return this->backtrace(bfs_queue.front());
         bfs_queue.pop();
         s->updateState(bfs_queue.front());
@@ -45,7 +45,7 @@ template <typename T>
 std::vector<std::string>* BFS<T>::backtrace(State<T>* state) {
     auto v = new std::vector<std::string>();
     auto s = state;
-    while (s != nullptr) {
+    while (s->getFather() != nullptr) {
         v->push_back(s->getDirection(s->getFather()->getState()));
         s = s->getFather();
     }
