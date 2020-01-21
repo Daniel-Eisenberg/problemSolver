@@ -9,6 +9,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
+#include "BFS.h"
 
 using namespace std;
 
@@ -17,6 +18,14 @@ class OA : public Solver<Problem, Solution> {
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
         Matrix* matrix = new Matrix(&matrix_vec);
+        Searcher<myPoint>* algo = new BFS<myPoint>();
+        vector<string>* result = algo->search(matrix);
+        string result_str = "";
+        for (string str : *result) {
+            result_str = result_str + str + ",";
+        }
+        result_str = result_str.substr( !result_str.empty() ? 1 : 0 );
+        return result_str;
     };
 
     vector<vector<int>> reconstructMatrix(string obj) {
