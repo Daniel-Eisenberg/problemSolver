@@ -1,37 +1,38 @@
-////
-//// Created by Daniel Eisenberg on 17/01/2020.
-////
+//
+// Created by Daniel Eisenberg on 17/01/2020.
+//
 //
 //#include <string>
-//#include "BFS.h"
+//#include "BFSAlgo.h"
 //
 //
 //template <typename T>
-//std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
+//std::vector<std::string>* BFSAlgo<T>::search(Searchable<T> *s) {
 //
 //    auto v = nullptr;
 //    s->setVisit(s->getState());
-//    bfs_queue.push(s->getState());
-//    while (!bfs_queue.empty()) {
+//    queue.push(s->getState());
+//    while (!queue.empty()) {
 //
 //        for (State<T>* state: s->getAllPossibleStates()) {
 //            if (state != nullptr && !s->visited(state)) {
+//                this->nodesEvaluated++;
 //                s->setVisit(state);
 //                state->setFather(s);
-//                bfs_queue.push(state);
+//                queue.push(state);
 //            }
 //        }
 //        //update state
-//        if (bfs_queue.size() == 1)
-//            v = this->backtrace(bfs_queue.front());
-//        bfs_queue.pop();
-//        s->updateState(bfs_queue.front());
+//        if (queue.size() == 1)
+//            v = this->backtrace(queue.front());
+//        queue.pop();
+//        s->updateState(queue.front());
 //    }
 //    return v;
 //}
 //
 //template <typename T>
-//std::vector<std::string>* BFS<T>::backtrace(State<T>* state) {
+//std::vector<std::string>* BFSAlgo<T>::backtrace(State<T>* state) {
 //    auto v = new std::vector<std::string>();
 //    auto s = state;
 //    while (s != nullptr) {
@@ -40,4 +41,4 @@
 //    }
 //    return v;
 //}
-//
+

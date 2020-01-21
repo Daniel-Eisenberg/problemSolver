@@ -9,7 +9,7 @@
 #include "MyTestClientHandler.h"
 #include "MyParallelServer.h"
 #include "Matrix.h"
-#include "BFS.h"
+#include "BFSAlgo.h"
 
 
 namespace boot {

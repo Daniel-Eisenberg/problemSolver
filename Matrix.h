@@ -15,13 +15,11 @@
 
 using namespace std;
 class Matrix : public Searchable<myPoint>{
-
     std::vector<std::vector<int>>* matrix;
     std::vector<State<myPoint>*> *all_possible_states;
     std::map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
-
-
 public:
+    int matrix_size;
     Matrix(std::vector<std::vector<int>> *matrix);
     bool isGoalState();
     void setAllPossibleStates();
@@ -41,6 +39,7 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
     this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
     all_possible_states = nullptr;
     setInitialState();
+    matrix_size = matrix->size();
 };
 
 bool Matrix::isGoalState() {
@@ -58,9 +57,9 @@ void Matrix::setInitialState() {
     auto s1 = new State<myPoint>(right, right->value, nullptr);
     auto s2 = new State<myPoint>(down, down->value, nullptr);
     this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(s2);
+    this->all_possible_states->push_back(s2); // down
     this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(s1);
+    this->all_possible_states->push_back(s1); // right
     std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
     std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
     std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);

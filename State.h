@@ -14,6 +14,7 @@ class State {
     T* state;
     int value;
     State<T>* father;
+    int priority;
 public:
     bool visited;
     State(T* state, int val, State<T>* father);
@@ -23,6 +24,8 @@ public:
     T* getState();
     int getValue();
     void setFather(State<T>* f);
+    int getPriority();
+    void setPriority(int f);
     std::string getDirection(T* state);
 
 };
@@ -62,6 +65,16 @@ int State<T>::getValue() {
 template <typename T>
 void State<T>::setFather(State<T> *f) {
     this->father = f;
+}
+
+template <typename T>
+int State<T>::getPriority() {
+    return this->priority;
+}
+
+template <typename T>
+void State<T>::setPriority(int priority_arg) {
+    this->priority = priority_arg;
 }
 
 template <typename T>
