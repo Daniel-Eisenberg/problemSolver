@@ -11,6 +11,9 @@
 #include <iostream>
 #include <netinet/in.h>
 #include <zconf.h>
+#include "MySerialServer.h"
+#include "ClientHandler.h"
+#include "MyClientHandler.h"
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -20,8 +23,11 @@ static std::mutex mtx;
 static bool close_server = false;
 static std::condition_variable cv;
 class MySerialServer : public Server {
-    virtual int open(int port, ClientHandler& clinethandler);
+    virtual int open(int port, ClientHandler* clinethandler);
     virtual void close();
+
+public:
+    static bool getCloseServer();
 };
 
 

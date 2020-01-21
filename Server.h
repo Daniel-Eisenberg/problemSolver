@@ -6,24 +6,17 @@
 #define EX4_SERVER_H
 
 #include "ClientHandler.h"
-#include "Searcher.h"
-#include "Searchable.h"
 
 namespace server_side {
 
     class Server {
 
     public:
-        virtual int open(int port, ClientHandler &clinethandler) = 0;
-
+        virtual int open(int port, ClientHandler* clientHandler) = 0;
         virtual void close() = 0;
-
-
-
-
     };
-
-
 }
+
+
 
 #endif //EX4_SERVER_H

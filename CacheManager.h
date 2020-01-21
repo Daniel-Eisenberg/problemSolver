@@ -14,17 +14,16 @@
 
 using namespace std;
 
+template <typename P, typename S>
 class CacheManager{
     std::unordered_map <std::string, bool> memoryCache;
 public:
-
+    CacheManager(){};
     virtual ~CacheManager(){};
 
-    virtual bool exist(string key) = 0;
-    virtual string get(string key) = 0;
-    virtual void insert(string key, string record) = 0;
-
-
+    virtual bool isExists(P problem) = 0;
+    virtual string get(P problem) = 0;
+    virtual void insert(P problem, S obj) = 0;
 
 };
 
