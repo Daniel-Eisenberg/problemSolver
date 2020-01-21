@@ -46,7 +46,7 @@ std::vector<std::string>* BFS<T>::backtrace(State<T>* state) {
     auto v = new std::vector<std::string>();
     auto s = state;
     while (s->getFather() != nullptr) {
-        v->push_back(s->getDirection(s->getFather()->getState()));
+        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
         s = s->getFather();
     }
     return v;

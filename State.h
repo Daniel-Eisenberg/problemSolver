@@ -67,13 +67,13 @@ void State<T>::setFather(State<T> *f) {
 template <typename T>
 std::string State<T>::getDirection(T *state) {
     if(*this->getState() < *state) {
-        return "up";
-    } else if (*this->getState() > *state)
-        return "down";
-    else if (*this->getState() << *state)
         return "left";
-    else
+    } else if (*this->getState() > *state)
         return "right";
+    else if (*this->getState() << *state)
+        return "up";
+    else
+        return "down";
 }
 
 #endif //EX4_STATE_H

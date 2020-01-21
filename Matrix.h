@@ -44,7 +44,7 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
 };
 
 bool Matrix::isGoalState() {
-    auto p = myPoint(this->matrix->size() - 1, this->matrix[0].size() - 1, this->matrix->at(this->matrix->size() - 1).at(this->matrix->size() - 1));
+    auto p = myPoint(this->matrix->size() - 1, this->matrix->at(0).size() - 1, this->matrix->at(this->matrix->size() - 1).at(this->matrix->at(0).size() - 1));
     State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
     return (*this->state == s);
 }
@@ -117,7 +117,7 @@ void Matrix::setAllPossibleStates() {
     bool has_up = this->state->getState()->x - 1 >= 0;
     bool has_down = this->state->getState()->x + 1 <= this->matrix->size() - 1;
     bool has_left = this->state->getState()->y - 1 >= 0;
-    bool has_right = this->state->getState()->y + 1 <= this->matrix->size() - 1;
+    bool has_right = this->state->getState()->y + 1 <= this->matrix->at(0).size() - 1;
     //check up
     std::pair<int, int> point;
     if (has_up) {

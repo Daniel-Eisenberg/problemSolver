@@ -23,22 +23,22 @@ public:
         return (this->x == p.x && this->y == p.y);
     }
 
-    //return true if the point is above "this" point
+    //return true if the point is left "this" point
     bool operator< (const myPoint& p) {
         return (this-> x == p.x && this-> y < p.y);
     }
 
-    //return true if the point is on the right to  "this" point
+    //return true if the point is on the above to  "this" point
     bool operator<< (const myPoint& p) {
         return (this->y == p.y && this->x < p.x);
     }
 
-    //return true if the point is on the below "this" point
+    //return true if the point is on the right "this" point
     bool operator> (const myPoint& p) {
         return (this->x == p.x && this-> y > p.y);
     }
 
-    //return true if the point is on the left to "this" point
+    //return true if the point is on the below to "this" point
     bool operator>> (const myPoint& p) {
         return (this->y == p.y && this->x > p.x);
     }
