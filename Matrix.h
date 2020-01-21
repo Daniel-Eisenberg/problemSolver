@@ -60,7 +60,7 @@ class Matrix : public Searchable<myPoint>{
 
 public:
     Matrix(std::vector<std::vector<int>>* matrix);
-    bool isGoalState();
+    bool isGoalState(State<myPoint> state);
     void setAllPossibleStates();
     std::vector<State<myPoint>*>* getAllPossibleStates();
     virtual void updateState(State<myPoint> *next);
