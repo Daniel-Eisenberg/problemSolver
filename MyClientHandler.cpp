@@ -46,31 +46,3 @@ void MyClientHandler::handleClient(int client_socket) {
     return;
 }
 
-vector<vector<int>> MyClientHandler::reconstructMatrix(string obj) {
-    vector<vector<int>> result;
-    vector<string> lines = split(obj, "\n");
-    for (string line : lines) {
-        vector<string> line_str = split(line, ",");
-        vector<int> line_int;
-        for (string piece : line_str) {
-            int num = stoi(piece);
-            line_int.push_back(num);
-        }
-        result.push_back(line_int);
-    }
-    return result;
-}
-
-std::vector<string> MyClientHandler::split(string str, string delimiter){
-    vector<string> arr;
-    size_t pos = 0;
-    string token;
-    while ((pos = str.find(delimiter)) != string::npos) {
-        token = str.substr(0, pos);
-        if (token != "")
-            arr.push_back(token);
-        str.erase(0, pos + delimiter.length());
-    }
-    arr.push_back(str);
-    return arr;
-}

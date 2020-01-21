@@ -17,12 +17,12 @@ protected:
 
 public:
 
-    virtual bool isGoalState(S state) = 0;
+    virtual bool isGoalState(State<S> state) = 0;
     virtual std::vector<State<S>*>* getAllPossibleStates() = 0;
     virtual void setAllPossibleStates() = 0;
-    virtual void updateState(S *next) = 0;
+    virtual void updateState(State<S> *next) = 0;
     virtual bool visited(S* state) = 0;
-    virtual void setVisit(S* state) = 0;
+    virtual void setVisit(State<S>* state) = 0;
     virtual void setFatherstate() = 0;
     virtual State<S>* getState() = 0;
 };
