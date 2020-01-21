@@ -8,7 +8,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
-#include "BFS.h"
+#include "BFSAlgo.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ class OA : public Solver<Problem, Solution> {
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
         Matrix* matrix = new Matrix(&matrix_vec, State<myPoint>(nullptr, 0, nullptr));
-        Searcher<myPoint>* algo = new BFS<myPoint>();
+        Searcher<myPoint>* algo = new BFSAlgo<myPoint>();
         vector<string>* result = algo->search(matrix);
         string result_str = "";
         for (string str : *result) {

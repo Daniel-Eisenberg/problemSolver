@@ -3,11 +3,11 @@
 //
 
 #include <string>
-#include "BFS.h"
+#include "BFSAlgo.h"
 
 
 template <typename T>
-std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
+std::vector<std::string>* BFSAlgo<T>::search(Searchable<T> *s) {
 
     auto v = nullptr;
     s->setVisit(s->getState());
@@ -31,7 +31,7 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
 }
 
 template <typename T>
-std::vector<std::string>* BFS<T>::backtrace(State<T>* state) {
+std::vector<std::string>* BFSAlgo<T>::backtrace(State<T>* state) {
     auto v = new std::vector<std::string>();
     auto s = state;
     while (s != nullptr) {

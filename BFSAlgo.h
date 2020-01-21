@@ -9,7 +9,7 @@
 #include "Searcher.h"
 #include "Matrix.h"
 template <typename T>
-class BFS : public Searcher<T> {
+class BFSAlgo : public Searcher<T> {
     std::queue<T> queue;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
