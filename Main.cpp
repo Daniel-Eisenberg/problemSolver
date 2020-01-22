@@ -10,6 +10,7 @@
 #include "Matrix.h"
 #include "OA.h"
 #include "DFSAlgo.h"
+#include "AStarAlgo.h"
 
 
 namespace boot {
@@ -35,9 +36,11 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-    vector<vector<int>> vec = {{1,2}, {4,5}};
+    vector<vector<int>> vec = {{1,100,100},
+                               {4,5,6},
+                               {1000,5,6}};
     Matrix* a = new Matrix(&vec);
-    DFSAlgo<myPoint> *t = new DFSAlgo<myPoint>();
+    AStarAlgo<myPoint> *t = new AStarAlgo<myPoint>();
     std::vector<string> *str = t->search(a);
 
     for (auto r: *str) {

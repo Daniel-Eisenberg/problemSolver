@@ -18,6 +18,7 @@ public:
     bool visited;
     State(T* state, int val, State<T>* father);
     bool operator==(const State<T>& s) const;
+    bool operator<(const State<T>& s) const;
     void setVisit();
     State<T>* getFather();
     T* getState();
@@ -26,6 +27,7 @@ public:
     std::string getDirection(T* state);
     double astarF = -1,astarH,astarG;
 };
+
 
 template <typename T>
 State<T>::State(T *state, int val, State<T> *father) {
@@ -39,6 +41,13 @@ template <typename T>
 bool State<T>::operator==(const State<T>& s) const{
     return *this->state == *s.state;
 }
+
+template <typename T>
+// Flip the sign to create min heap
+bool State<T>::operator<(const State<T>& s) const {
+    return *this->state >= *s.state;
+}
+
 template <typename T>
 void State<T>::setVisit() {
     this->visited = true;

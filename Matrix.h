@@ -19,11 +19,11 @@ class Matrix : public Searchable<myPoint>{
     std::vector<std::vector<int>>* matrix;
     std::vector<State<myPoint>*> *all_possible_states;
     std::map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
-
+    State<myPoint>* goalState;
 
 public:
-    int matrix_size;
     Matrix(std::vector<std::vector<int>> *matrix);
+    virtual State<myPoint>* getGoalState();
     bool isGoalState();
     bool isGoalState(State<myPoint> dest);
     void setAllPossibleStates();
@@ -43,19 +43,24 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
     this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
     all_possible_states = nullptr;
     setInitialState();
-    matrix_size = matrix->size();
+
+    int size = this->matrix->size();
+    myPoint* goal_point = new myPoint(size - 1, this->matrix[0].size() - 1, this->matrix->at(size - 1).at(size - 1));
+    State<myPoint>* goal_state = new State<myPoint>(goal_point, goal_point->value, nullptr);
+    this->goalState = goal_state;
 };
 
+
 bool Matrix::isGoalState() {
-    auto p = myPoint(this->matrix->size() - 1, this->matrix->at(0).size() - 1, this->matrix->at(this->matrix->size() - 1).at(this->matrix->at(0).size() - 1));
-    State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
-    return (*this->state == s);
+    return (*this->state == *this->goalState);
 }
 
 bool Matrix::isGoalState(State<myPoint> dest) {
-    auto p = myPoint(this->matrix->size(), this->matrix[0].size(), this->matrix->at(this->matrix->size()).at(this->matrix->size()));
-    State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
-    return (this->state == &dest);
+    return (dest == *this->goalState);
+}
+
+State<myPoint>* Matrix::getGoalState() {
+    return this->goalState;
 }
 
 void Matrix::setInitialState() {
@@ -184,8 +189,6 @@ void Matrix::updateState(State<myPoint> *next) {
     this->state = next;
     setAllPossibleStates();
 }
-
-
 
 void Matrix::setVisit(State<myPoint> *s) {
     s->setVisit();

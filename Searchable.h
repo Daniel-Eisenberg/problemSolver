@@ -19,7 +19,7 @@ protected:
     State<S>* state;
 
 public:
-
+    virtual State<S>* getGoalState() = 0;
     virtual bool isGoalState() = 0;
     virtual bool isGoalState(State<myPoint> dest) = 0;
     virtual std::vector<State<S>*>* getAllPossibleStates() = 0;
