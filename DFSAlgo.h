@@ -22,7 +22,6 @@ public:
 template <typename T>
 std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
 
-    auto v = nullptr;
 
     algo_stack.push(s->getState());
 
@@ -32,19 +31,17 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
             s->setVisit(s->getState());
 
             for (State<T>* state: *s->getAllPossibleStates()) {
-                if (state != nullptr) {
+                if (state != nullptr && !s->visited(state)) {
                     this->nodesEvaluated++;
                     state->setFather(s->getState());
                     algo_stack.push(state);
                 }
             }
         }
-
-        if (s->isGoalState())
-            return this->backtrace(algo_stack.top());
         s->updateState(algo_stack.top());
     }
-    return v;
+    return this->backtrace(s->getState());
+
 }
 
 template <typename T>
