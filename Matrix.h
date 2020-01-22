@@ -19,6 +19,7 @@ class Matrix : public Searchable<myPoint>{
     std::vector<State<myPoint>*> *all_possible_states;
     std::map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
 public:
+    int matrix_size;
     Matrix(std::vector<std::vector<int>> *matrix);
     bool isGoalState();
     bool isGoalState(State<myPoint> dest);
@@ -39,6 +40,7 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
     this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
     all_possible_states = nullptr;
     setInitialState();
+    matrix_size = matrix->size();
 };
 
 bool Matrix::isGoalState() {
