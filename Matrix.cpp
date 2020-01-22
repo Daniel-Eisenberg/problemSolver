@@ -4,9 +4,6 @@
 //
 //#include "Matrix.h"
 //#include <string>
-//#include <memory>
-//#include "Util.h"
-//#include "State.h"
 //
 //using namespace std;
 //
@@ -21,7 +18,7 @@
 //bool Matrix::isGoalState() {
 //    auto p = myPoint(this->matrix->size(), this->matrix[0].size(), this->matrix->at(this->matrix->size()).at(this->matrix->size()));
 //    State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
-//   return (this->state == &s);
+//    return (this->state == &s);
 //}
 //
 //void Matrix::setInitialState() {
@@ -36,8 +33,8 @@
 //    this->all_possible_states->push_back(s2);
 //    this->all_possible_states->push_back(nullptr);
 //    this->all_possible_states->push_back(s1);
-//    std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
-//    std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
+//    std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->x);
+//    std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->x);
 //    std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
 //    std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
 //    this->all_saved_states->insert(pair1);

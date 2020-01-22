@@ -24,6 +24,7 @@ class Matrix : public Searchable<myPoint>{
 public:
     Matrix(std::vector<std::vector<int>> *matrix);
     bool isGoalState();
+    bool isGoalState(State<myPoint> dest);
     void setAllPossibleStates();
     std::vector<State<myPoint>*>* getAllPossibleStates();
     virtual void updateState(State<myPoint> *next);
@@ -47,6 +48,12 @@ bool Matrix::isGoalState() {
     auto p = myPoint(this->matrix->size() - 1, this->matrix->at(0).size() - 1, this->matrix->at(this->matrix->size() - 1).at(this->matrix->at(0).size() - 1));
     State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
     return (*this->state == s);
+}
+
+bool Matrix::isGoalState(State<myPoint> dest) {
+    auto p = myPoint(this->matrix->size(), this->matrix[0].size(), this->matrix->at(this->matrix->size()).at(this->matrix->size()));
+    State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
+    return (this->state == &dest);
 }
 
 void Matrix::setInitialState() {

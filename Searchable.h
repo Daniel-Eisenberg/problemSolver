@@ -21,6 +21,7 @@ protected:
 public:
 
     virtual bool isGoalState() = 0;
+    virtual bool isGoalState(State<myPoint> dest) = 0;
     virtual std::vector<State<S>*>* getAllPossibleStates() = 0;
     virtual void setAllPossibleStates() = 0;
     virtual void updateState(State<S> *next) = 0;

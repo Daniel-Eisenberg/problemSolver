@@ -24,7 +24,7 @@ public:
     int getValue();
     void setFather(State<T>* f);
     std::string getDirection(T* state);
-
+    double astarF,astarH,astarG;
 };
 
 template <typename T>
