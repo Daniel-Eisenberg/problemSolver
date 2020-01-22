@@ -6,10 +6,10 @@
 #include "FilesCacheManager.h"
 #include "MySerialServer.h"
 #include "MyClientHandler.h"
-#include "MyTestClientHandler.h"
 #include "MyParallelServer.h"
 #include "Matrix.h"
-#include "BFSAlgo.h"
+#include "OA.h"
+#include "DFSAlgo.h"
 
 
 namespace boot {
@@ -18,7 +18,7 @@ namespace boot {
     public:
         int main() {
             server_side::Server* server = new MyParallelServer(3);
-            Solver<string, string>* solver = new StringReverser();
+            Solver<string, string>* solver = new OA<string, string>();
             CacheManager<string,string>* cacheManager = new FilesCacheManager<string,string>(2);
             ClientHandler* clientHandler = new MyClientHandler(solver, cacheManager);
 
@@ -35,15 +35,23 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-    vector<vector<int>> vec = {{1,2}, {0,0}};
+    vector<vector<int>> vec = {{1,2}, {4,5}};
     Matrix* a = new Matrix(&vec);
-    BFS<myPoint> t;
-    std::vector<string> *str = t.search(a);
+    DFSAlgo<myPoint> *t = new DFSAlgo<myPoint>();
+    std::vector<string> *str = t->search(a);
 
     for (auto r: *str) {
         cout << r << " ";
     }
     cout << endl;
+
+    //test for OA
+//    OA<string,string>* a = new OA<string,string>();
+//    std::string str = "1,2,3\n4,5,6\n7,8,9\n";
+//    auto m = a->reconstructMatrix(str);
+
+
+
 
     return 0;
 

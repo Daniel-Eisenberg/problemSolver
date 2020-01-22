@@ -4,7 +4,7 @@
 //
 //#include "DFSAlgo.h"
 //#include <string>
-//#include <stack>
+//#include <algo_stack>
 //
 //using namespace std;
 //
@@ -13,10 +13,10 @@
 //
 //    auto v = nullptr;
 //    s->setVisit(s->getState());
-//    stack.push(s->getState());
+//    algo_stack.push(s->getState());
 //
-//    while (!stack.empty()) {
-//        s->updateState(stack.pop());
+//    while (!algo_stack.empty()) {
+//        s->updateState(algo_stack.pop());
 //        if (!s->visited(s->getState())) {
 //            s->setVisit(s->getState());
 //
@@ -25,12 +25,12 @@
 //                    this->nodesEvaluated++;
 //                    s->setVisit(state);
 //                    state->setFather(s);
-//                    stack.push(state);
+//                    algo_stack.push(state);
 //                }
 //            }
 //        }
 //
-//        if (stack.size() == 1)
+//        if (algo_stack.size() == 1)
 //            return this->backtrace(s);
 //    }
 //    return v;

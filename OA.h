@@ -9,21 +9,23 @@
 #include "Searcher.h"
 #include "Matrix.h"
 #include "BFSAlgo.h"
+#include "Util.h"
 
 using namespace std;
 
 template <typename Problem, typename Solution>
 class OA : public Solver<Problem, Solution> {
+public:
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
-        Matrix* matrix = new Matrix(&matrix_vec, State<myPoint>(nullptr, 0, nullptr));
-        Searcher<myPoint>* algo = new BFSAlgo<myPoint>();
+        Matrix* matrix = new Matrix(&matrix_vec);
+        Searcher<myPoint>* algo = new BFS<myPoint>();
         vector<string>* result = algo->search(matrix);
         string result_str = "";
         for (string str : *result) {
             result_str = result_str + str + ",";
         }
-        result_str = result_str.substr( !result_str.empty() ? 1 : 0 );
+        result_str = result_str.substr(0, result_str.length() - 1);
         return result_str;
     };
 
@@ -31,13 +33,16 @@ class OA : public Solver<Problem, Solution> {
         vector<vector<int>> result;
         vector<string> lines = split(obj, "\n");
         for (string line : lines) {
-            vector<string> line_str = split(line, ",");
-            vector<int> line_int;
-            for (string piece : line_str) {
-                int num = stoi(piece);
-                line_int.push_back(num);
+            if (line != "") {
+                vector<string> line_str = split(line, ",");
+                vector<int> line_int;
+                for (string piece : line_str) {
+                    int num = stoi(piece);
+                    line_int.push_back(num);
+                }
+                result.push_back(line_int);
             }
-            result.push_back(line_int);
+
         }
         return result;
     };

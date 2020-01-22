@@ -17,7 +17,7 @@ class State {
 public:
     bool visited;
     State(T* state, int val, State<T>* father);
-    bool operator==(State* s);
+    bool operator==(const State<T>& s) const;
     void setVisit();
     State<T>* getFather();
     T* getState();
@@ -36,8 +36,8 @@ State<T>::State(T *state, int val, State<T> *father) {
 }
 
 template <typename T>
-bool State<T>::operator==(State *s) {
-    return this->state == s->state;
+bool State<T>::operator==(const State<T>& s) const{
+    return *this->state == *s.state;
 }
 template <typename T>
 void State<T>::setVisit() {
@@ -67,13 +67,13 @@ void State<T>::setFather(State<T> *f) {
 template <typename T>
 std::string State<T>::getDirection(T *state) {
     if(*this->getState() < *state) {
-        return "up";
-    } else if (*this->getState() > *state)
-        return "down";
-    else if (*this->getState() << *state)
         return "left";
-    else
+    } else if (*this->getState() > *state)
         return "right";
+    else if (*this->getState() << *state)
+        return "up";
+    else
+        return "down";
 }
 
 #endif //EX4_STATE_H

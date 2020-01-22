@@ -15,9 +15,12 @@
 
 using namespace std;
 class Matrix : public Searchable<myPoint>{
+
     std::vector<std::vector<int>>* matrix;
     std::vector<State<myPoint>*> *all_possible_states;
     std::map<std::pair<int, int>, State<myPoint>*> *all_saved_states;
+
+
 public:
     int matrix_size;
     Matrix(std::vector<std::vector<int>> *matrix);
@@ -44,9 +47,9 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
 };
 
 bool Matrix::isGoalState() {
-    auto p = myPoint(this->matrix->size(), this->matrix[0].size(), this->matrix->at(this->matrix->size()).at(this->matrix->size()));
+    auto p = myPoint(this->matrix->size() - 1, this->matrix->at(0).size() - 1, this->matrix->at(this->matrix->size() - 1).at(this->matrix->at(0).size() - 1));
     State<myPoint> s = State<myPoint>(&p, p.value, nullptr);
-    return (this->state == &s);
+    return (*this->state == s);
 }
 
 bool Matrix::isGoalState(State<myPoint> dest) {
@@ -58,21 +61,39 @@ bool Matrix::isGoalState(State<myPoint> dest) {
 void Matrix::setInitialState() {
     myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
     //set for the first time
-    down = new myPoint(1, 0, this->matrix->at(1).at(0));
-    right = new myPoint(0, 1, this->matrix->at(0).at(1));
     this->all_possible_states = new std::vector<State<myPoint> *>();
-    auto s1 = new State<myPoint>(right, right->value, nullptr);
-    auto s2 = new State<myPoint>(down, down->value, nullptr);
     this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(s2); // down
+    //matrix has more then one line
+    if (this->matrix->size() > 1) {
+        down = new myPoint(1, 0, this->matrix->at(1).at(0));
+        auto s2 = new State<myPoint>(down, down->value, nullptr);
+        this->all_possible_states->push_back(s2);
+        std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
+        std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
+        this->all_saved_states->insert(pair2);
+
+    }
+    else {
+        this->all_possible_states->push_back(nullptr);
+    }
+    //matrix has more then one column
+    if (this->matrix->at(0).size() > 1) {
+        right = new myPoint(0, 1, this->matrix->at(0).at(1));
+        auto s1 = new State<myPoint>(right, right->value, nullptr);
+        this->all_possible_states->push_back(s1);
+        std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
+        std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
+        this->all_saved_states->insert(pair1);
+
+    } else {
+        this->all_possible_states->push_back(nullptr);
+    }
+
+
     this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(s1); // right
-    std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
-    std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
-    std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
-    std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
-    this->all_saved_states->insert(pair1);
-    this->all_saved_states->insert(pair2);
+    std::pair<int, int> pair_s3 (0, 0);
+    std::pair<std::pair<int, int>, State<myPoint>*> pair3(pair_s3, this->state);
+    this->all_saved_states->insert(pair3);
 
 }
 
@@ -100,8 +121,8 @@ void Matrix::updatedirection(std::pair<int, int> point, std::string _case) {
     if (iter != this->all_saved_states->end())
         this->all_possible_states->at(location) = iter->second;
     else {
-        auto p = new myPoint(this->state->getState()->x - 1, this->state->getState()->y,
-                             this->matrix->at(this->state->getState()->x - 1).at(this->state->getState()->y));
+        auto p = new myPoint(point.first, point.second,
+                             this->matrix->at(point.first).at(point.second));
         auto up_state = new State<myPoint>(p, p->value, nullptr);
         this->all_possible_states->at(location) = up_state;
         auto pr = std::make_pair(point, up_state);
@@ -118,9 +139,9 @@ void Matrix::setAllPossibleStates() {
 
     //myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
     bool has_up = this->state->getState()->x - 1 >= 0;
-    bool has_down = this->state->getState()->x + 1 <= this->matrix->size();
+    bool has_down = this->state->getState()->x + 1 <= this->matrix->size() - 1;
     bool has_left = this->state->getState()->y - 1 >= 0;
-    bool has_right = this->state->getState()->y + 1 <= this->matrix->size();
+    bool has_right = this->state->getState()->y + 1 <= this->matrix->at(0).size() - 1;
     //check up
     std::pair<int, int> point;
     if (has_up) {

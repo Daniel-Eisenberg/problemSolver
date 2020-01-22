@@ -5,7 +5,8 @@
 #ifndef EX4_UTIL_H
 #define EX4_UTIL_H
 
-struct myPoint {
+class myPoint {
+public:
     int x;
     int y;
     int value;
@@ -18,26 +19,26 @@ struct myPoint {
         this->visited = false;
     }
 
-    bool operator== (const myPoint& p) {
+    bool operator ==(const myPoint& p) const{
         return (this->x == p.x && this->y == p.y);
     }
 
-    //return true if the point is above "this" point
+    //return true if the point is left "this" point
     bool operator< (const myPoint& p) {
         return (this-> x == p.x && this-> y < p.y);
     }
 
-    //return true if the point is on the right to  "this" point
+    //return true if the point is on the above to  "this" point
     bool operator<< (const myPoint& p) {
         return (this->y == p.y && this->x < p.x);
     }
 
-    //return true if the point is on the below "this" point
+    //return true if the point is on the right "this" point
     bool operator> (const myPoint& p) {
         return (this->x == p.x && this-> y > p.y);
     }
 
-    //return true if the point is on the left to "this" point
+    //return true if the point is on the below to "this" point
     bool operator>> (const myPoint& p) {
         return (this->y == p.y && this->x > p.x);
     }
