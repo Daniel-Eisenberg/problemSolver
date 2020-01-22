@@ -18,6 +18,7 @@ public:
     bool visited;
     State(T* state, int val, State<T>* father);
     bool operator==(const State<T>& s) const;
+    bool operator<(const State<T>& p1) const;
     void setVisit();
     State<T>* getFather();
     T* getState();
@@ -39,6 +40,12 @@ template <typename T>
 bool State<T>::operator==(const State<T>& s) const{
     return *this->state == *s.state;
 }
+
+template <typename T>
+bool State<T>::operator<(const State<T>& s) const{
+    return *this->value > *s.value;
+}
+
 template <typename T>
 void State<T>::setVisit() {
     this->visited = true;

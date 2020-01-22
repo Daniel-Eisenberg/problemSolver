@@ -10,6 +10,7 @@
 #include "Matrix.h"
 #include "OA.h"
 #include "DFSAlgo.h"
+#include "BestFSAlgo.h"
 
 
 namespace boot {
@@ -35,9 +36,9 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-    vector<vector<int>> vec = {{1,2}, {4,5}};
-    Matrix* a = new Matrix(&vec);
-    DFSAlgo<myPoint> *t = new DFSAlgo<myPoint>();
+    vector<vector<int>> vec = {{1}, {2}, {4}};
+    auto a = new Matrix(&vec);
+    auto t = new BestFSAlgo<myPoint>();
     std::vector<string> *str = t->search(a);
 
     for (auto r: *str) {

@@ -33,12 +33,11 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
                 bfs_queue.push(state);
             }
         }
-        //update state
-        if (s->isGoalState())
-            return this->backtrace(bfs_queue.front());
         bfs_queue.pop();
         s->updateState(bfs_queue.front());
     }
+    //update state
+    return this->backtrace(bfs_queue.front());
 }
 
 template <typename T>
