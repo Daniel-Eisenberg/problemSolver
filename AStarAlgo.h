@@ -7,7 +7,6 @@
 
 #include "queue"
 #include "Searcher.h"
-//#include "Matrix.h"
 #include <set>
 #include <iostream>
 
@@ -33,7 +32,6 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
         State<T> *q = popOpenList();
         closed.insert(q);
         s->updateState(q);
-        cout << "q set x=" << q->getState()->x << ", y=" << q->getState()->y << endl;
 
         vector<State<T>*>* nbrs = s->getAllPossibleStates();
         for (int i = 0; i < 4; ++i) {
@@ -42,7 +40,6 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 continue;
 
             if (s->isGoalState(*nbr)) {
-                cout << "GOAL!!!" << endl;
                 nbr->setFather(q);
                 return this->backtrace(nbr);
             }
@@ -54,7 +51,6 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 if (nbr->astarF == -1 || nbr->astarF > newF) {
                     nbr->setFather(q);
                     open_pq.insert(nbr);
-                    cout << "nbr added to pq x=" << nbr->getState()->x << ", y=" << nbr->getState()->y << endl;
 
                     nbr->astarG = newG;
                     nbr->astarH = newH;

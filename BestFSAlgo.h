@@ -13,54 +13,66 @@
 
 template <typename T>
 class BestFSAlgo : public Searcher<T> {
-    std::priority_queue<State<T>*> open_pq;
+    set<State<T>*> open_pq;
+    set<State<T>*> closed;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
-    virtual std::vector<std::string>* backtrace(State<T> state);
-    virtual State<T>* popOpenList();
-    virtual void adujstPriority(State<T>* state);
-    bool inQueue(State<T>* state);
+    virtual std::vector<std::string>* backtrace(State<T>* state);
 };
-
 
 template <typename T>
 std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
-
-    auto v = nullptr;
-    volatile int bestBacktrace = -1;
+    int bestBacktrace = -1;
     int tempBacktrace = 0;
-    set<State<T>*> closed;
-    s->setVisit(s->getState());
-    open_pq.push(s->getState());
-    while (!open_pq.empty()) {
 
-        State<T>* n = popOpenList();
-        closed.insert(n);
-        if (s->isGoalState())
-            return this->backtrace(*open_pq.top());
+    s->setVisit(s->getState());
+    open_pq.insert(s->getState());
+    while (!open_pq.empty()) {
+        State<T>* n = *(min_element(open_pq.begin(), open_pq.end(),
+                [] (State<T> *left, State<T> *right) -> bool {
+                    if (*left->value == -1 && *right->value == -1)
+                        return false;
+                    else if (*left->value == -1) {
+                        return true;
+                    } else if (*right->value == -1) {
+                        return false;
+                    }
+                    return left->getValue() < right->getValue();
+                    }));
+
+        if (s->isGoalState(*n)) {
+            return this->backtrace(n);
+        }
+
+        s->updateState(n);
 
         for (State<T>* state: *s->getAllPossibleStates()) {
             if (state == NULL)
                 continue;
-            if (!(closed.count(state) > 0) && !this->inQueue(state)) {
+            if (!closed.count(state) > 0 && !open_pq.count(state) > 0 && !state->visited) {
                 this->nodesEvaluated++;
                 s->setVisit(state);
-                state->setFather(s->getState());
-                open_pq.push(state);
-            } else if (bestBacktrace == -1 || bestBacktrace > this->backtrace(*open_pq.top())->size()){
-                bestBacktrace = this->backtrace(*open_pq.top())->size();
-                if (!this->inQueue(state))
-                    open_pq.push(state);
-//                else {
-//                    adujstPriority(state);
-//                }
+                state->setFather(n);
+                open_pq.insert(state);
+            }
+            else if (bestBacktrace == -1 || bestBacktrace > (tempBacktrace = this->backtrace(state)->size())){
+                bestBacktrace = tempBacktrace;
+                if (!open_pq.count(state) > 0) {
+                    open_pq.insert(state);
+                }
             }
         }
+        open_pq.erase(n);
+        closed.insert(n);
     }
+
+    vector<std::string> NOT_FOUND;
+    NOT_FOUND.push_back("NOT_FOUND");
+    return &NOT_FOUND;
 }
 
 template <typename T>
-std::vector<std::string>* BestFSAlgo<T>::backtrace(State<T> state) {
+std::vector<std::string>* BestFSAlgo<T>::backtrace(State<T>* state) {
     auto v = new std::vector<std::string>();
     auto s = state;
     while (s->getFather() != nullptr) {
@@ -69,48 +81,5 @@ std::vector<std::string>* BestFSAlgo<T>::backtrace(State<T> state) {
     }
     return v;
 }
-
-template <typename T>
-State<T>* BestFSAlgo<T>::popOpenList() {
-    this->nodesEvaluated++;
-    auto tmp = open_pq.top();
-    open_pq.pop();
-    return tmp;
-}
-
-template <typename T>
-void BestFSAlgo<T>::adujstPriority(State<T>* state)  {
-    vector<State<T>*> v;
-    while (open_pq.top() != state) {
-        v.push_back(open_pq.top());
-        open_pq.pop();
-    }
-    open_pq.pop();
-    while (!v.empty()) {
-        open_pq.push(v.at(0));
-        v.erase(v.begin());
-    }
-    open_pq.push(state);
-}
-
-template <typename T>
-bool BestFSAlgo<T>::inQueue(State<T> *state) {
-    bool i = true;
-    vector<State<T>*> v;
-    while (!open_pq.empty() &&open_pq.top() != state) {
-        v.push_back(open_pq.top());
-        open_pq.pop();
-    }
-    if (open_pq.empty()) {
-        i = false;
-    }
-    while (!v.empty()) {
-        open_pq.push(v.at(0));
-        v.erase(v.begin());
-    }
-    return i;
-}
-
-
 
 #endif //EX3_BESTFSALGO_H

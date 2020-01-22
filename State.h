@@ -43,6 +43,13 @@ bool State<T>::operator==(const State<T>& s) const{
 
 template <typename T>
 bool State<T>::operator<(const State<T>& s) const{
+    if (*this->value == -1 && *s.value == -1)
+        return false;
+    else if (*this->value == -1) {
+        return true;
+    } else if (*s->value == -1) {
+        return false;
+    }
     return *this->value > *s.value;
 }
 
