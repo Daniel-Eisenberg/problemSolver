@@ -6,18 +6,17 @@
 #define EX3_BESTFSALGO_H
 
 #include "queue"
-#include "Searcher.h"
+#include "SspAlgorithm.h"
 #include "Matrix.h"
 #include <set>
 
 
 template <typename T>
-class BestFSAlgo : public Searcher<T> {
+class BestFSAlgo : public SspAlgorithm<T> {
     set<State<T>*> open_pq;
     set<State<T>*> closed;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
-    virtual std::vector<std::string>* backtrace(State<T>* state);
 };
 
 template <typename T>
@@ -43,7 +42,6 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
             if (state == nullptr || state->getValue() == -1)
                 continue;
             if (!(closed.count(state) > 0) && !(open_pq.count(state) > 0) && !state->visited) {
-                this->nodesEvaluated++;
                 s->setVisit(state);
                 state->setFather(n);
                 open_pq.insert(state);
@@ -62,17 +60,6 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
     vector<string>* NOT_FOUND = new vector<string>;
     NOT_FOUND->push_back("NOT_FOUND");
     return NOT_FOUND;
-}
-
-template <typename T>
-std::vector<std::string>* BestFSAlgo<T>::backtrace(State<T>* state) {
-    auto v = new std::vector<std::string>();
-    auto s = state;
-    while (s->getFather() != nullptr) {
-        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
-        s = s->getFather();
-    }
-    return v;
 }
 
 #endif //EX3_BESTFSALGO_H
