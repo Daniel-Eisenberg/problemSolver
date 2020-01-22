@@ -77,6 +77,7 @@ std::vector<std::string>* AStarAlgo<T>::backtrace(State<T>* state) {
     return v;
 }
 
+
 template <typename T>
 State<T>* AStarAlgo<T>::popOpenList() {
     this->nodesEvaluated++;
