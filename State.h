@@ -7,14 +7,15 @@
 
 
 #include <string>
+#include "Util.h"
 
 template <typename T>
 class State {
     T* state;
     int value;
-    bool visited;
     State<T>* father;
 public:
+    bool visited;
     State(T* state, int val, State<T>* father);
     bool operator==(State* s);
     void setVisit();
@@ -22,9 +23,57 @@ public:
     T* getState();
     int getValue();
     void setFather(State<T>* f);
-    std::string getDiraction(T* state);
-
+    std::string getDirection(T* state);
+    double astarF,astarH,astarG;
 };
 
+template <typename T>
+State<T>::State(T *state, int val, State<T> *father) {
+    this->state = state;
+    this->value = val;
+    this->father = father;
+    this->visited = false;
+}
+
+template <typename T>
+bool State<T>::operator==(State *s) {
+    return this->state == s->state;
+}
+template <typename T>
+void State<T>::setVisit() {
+    this->visited = true;
+}
+
+template <typename T>
+State<T> * State<T>::getFather() {
+    return this->father;
+}
+
+template <typename T>
+T* State<T>::getState() {
+    return this->state;
+}
+
+template <typename T>
+int State<T>::getValue() {
+    return this->value;
+}
+
+template <typename T>
+void State<T>::setFather(State<T> *f) {
+    this->father = f;
+}
+
+template <typename T>
+std::string State<T>::getDirection(T *state) {
+    if(*this->getState() < *state) {
+        return "up";
+    } else if (*this->getState() > *state)
+        return "down";
+    else if (*this->getState() << *state)
+        return "left";
+    else
+        return "right";
+}
 
 #endif //EX4_STATE_H

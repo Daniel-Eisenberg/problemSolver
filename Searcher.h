@@ -6,9 +6,13 @@
 #define EX4_SEARCHER_H
 
 #include "Searchable.h"
+#include "Util.h"
+#include <string>
 
 template <typename T>
 class Searcher {
+protected:
+    int nodesEvaluated = 0;
 public:
     virtual std::vector<std::string>* search(Searchable<T> *s) = 0;
     virtual std::vector<std::string>* backtrace(State<T>* state) = 0;

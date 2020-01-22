@@ -8,6 +8,8 @@
 #include "MyClientHandler.h"
 #include "MyTestClientHandler.h"
 #include "MyParallelServer.h"
+#include "Matrix.h"
+#include "BFSAlgo.h"
 
 
 namespace boot {
@@ -18,7 +20,7 @@ namespace boot {
             server_side::Server* server = new MyParallelServer(3);
             Solver<string, string>* solver = new StringReverser();
             CacheManager<string,string>* cacheManager = new FilesCacheManager<string,string>(2);
-            ClientHandler* clientHandler = new MyTestClientHandler(solver, cacheManager);
+            ClientHandler* clientHandler = new MyClientHandler(solver, cacheManager);
 
             server->open(5400, clientHandler);
 
@@ -31,6 +33,18 @@ namespace boot {
 
 
 int main(){
-    boot::Main main;
-    return main.main();
+    //boot::Main main;
+    //return main.main();
+    vector<vector<int>> vec = {{1,2}, {0,0}};
+    Matrix* a = new Matrix(&vec);
+    BFS<myPoint> t;
+    std::vector<string> *str = t.search(a);
+
+    for (auto r: *str) {
+        cout << r << " ";
+    }
+    cout << endl;
+
+    return 0;
+
 }

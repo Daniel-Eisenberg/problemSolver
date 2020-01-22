@@ -19,9 +19,9 @@
 
 class MyClientHandler : public ClientHandler {
     Solver<string, string>* solver;
-    FilesCacheManager<string, string>* cm;
+    CacheManager<string, string>* cm;
 public:
-    MyClientHandler(Solver<string, string>* solver, FilesCacheManager<string, string>* cm) {
+    MyClientHandler(Solver<string, string>* solver, CacheManager<string, string>* cm) {
         this->solver = solver;
         this->cm = cm;
     }
