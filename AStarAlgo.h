@@ -18,7 +18,6 @@ class AStarAlgo : public Searcher<T>  {
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
     virtual std::vector<std::string>* backtrace(State<T>* state);
-    virtual State<T>* popOpenList();
     float heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y);
 };
 
@@ -29,7 +28,8 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
     s->setVisit(s->getState());
     open_pq.insert(s->getState());
     while (!open_pq.empty()) {
-        State<T> *q = popOpenList();
+        State<T> *q = *open_pq.begin();
+        open_pq.erase(open_pq.begin());
         closed.insert(q);
         s->updateState(q);
 
@@ -73,15 +73,7 @@ std::vector<std::string>* AStarAlgo<T>::backtrace(State<T>* state) {
     return v;
 }
 
-
-template <typename T>
-State<T>* AStarAlgo<T>::popOpenList() {
-    this->nodesEvaluated++;
-    auto res = *open_pq.begin();
-    open_pq.erase(open_pq.begin());
-    return res;
-}
-
+// Manhatan calc
 template <typename T>
 float AStarAlgo<T>::heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y) {
     return std::abs(cur_x - goal_x) + std::abs(cur_y - goal_y);
