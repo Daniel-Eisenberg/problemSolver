@@ -8,8 +8,8 @@
 #include "MyClientHandler.h"
 #include "MyParallelServer.h"
 #include "Matrix.h"
-#include "BFS.h"
 #include "OA.h"
+#include "DFSAlgo.h"
 
 
 namespace boot {
@@ -35,15 +35,15 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-//    vector<vector<int>> vec = {{1}, {2}, {3}};
-//    Matrix* a = new Matrix(&vec);
-//    BFS<myPoint> t;
-//    std::vector<string> *str = t.search(a);
-//
-//    for (auto r: *str) {
-//        cout << r << " ";
-//    }
-//    cout << endl;
+    vector<vector<int>> vec = {{1,2}, {4,5}};
+    Matrix* a = new Matrix(&vec);
+    DFSAlgo<myPoint> *t = new DFSAlgo<myPoint>();
+    std::vector<string> *str = t->search(a);
+
+    for (auto r: *str) {
+        cout << r << " ";
+    }
+    cout << endl;
 
     //test for OA
 //    OA<string,string>* a = new OA<string,string>();

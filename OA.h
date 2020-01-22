@@ -8,7 +8,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
-#include "BFS.h"
+#include "BFSAlgo.h"
 #include "Util.h"
 
 using namespace std;
