@@ -2,17 +2,20 @@
 // Created by Daniel Eisenberg on 12/01/2020.
 //
 
-#ifndef EX4_SEARCHABLE_H
-#define EX4_SEARCHABLE_H
+#ifndef EX4_SEARCHER_H
+#define EX4_SEARCHER_H
 
-class Searcher{
+#include "Searchable.h"
+#include "Util.h"
+#include <string>
 
-
+template <typename T>
+class Searcher {
+protected:
+    int nodesEvaluated = 0;
 public:
-    virtual void search(string record) = 0;
-
-
-
+    virtual std::vector<std::string>* search(Searchable<T> *s) = 0;
+    virtual std::vector<std::string>* backtrace(State<T>* state) = 0;
 };
 
-#endif //EX4_SEARCHABLE_H
+#endif //EX4_SEARCHER_H
