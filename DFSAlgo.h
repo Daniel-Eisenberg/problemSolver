@@ -8,15 +8,14 @@
 
 #include <stack>
 #include "queue"
-#include "Searcher.h"
+#include "SspAlgorithm.h"
 #include "Matrix.h"
 
 template <typename T>
-class DFSAlgo : public Searcher<T> {
+class DFSAlgo : public SspAlgorithm<T> {
     std::stack<State<T>*> algo_stack;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
-    virtual std::vector<std::string>* backtrace(State<T>* state);
 };
 
 template <typename T>
@@ -44,17 +43,6 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
     }
     return this->backtrace(s->getState());
 
-}
-
-template <typename T>
-std::vector<std::string>* DFSAlgo<T>::backtrace(State<T>* state) {
-    auto v = new std::vector<std::string>();
-    auto s = state;
-    while (s->getFather() != nullptr) {
-        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
-        s = s->getFather();
-    }
-    return v;
 }
 
 #endif //EX3_DFSALGO_H

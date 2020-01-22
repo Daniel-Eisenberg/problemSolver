@@ -7,17 +7,17 @@
 
 #include "queue"
 #include "Searcher.h"
+#include "SspAlgorithm.h"
 #include <set>
 #include <iostream>
 
 using namespace std;
 
 template <typename T>
-class AStarAlgo : public Searcher<T>  {
+class AStarAlgo : public SspAlgorithm<T>  {
     set<State<T>*> open_pq;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
-    virtual std::vector<std::string>* backtrace(State<T>* state);
     float heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y);
 };
 
@@ -60,17 +60,6 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
         }
 
     }
-}
-
-template <typename T>
-std::vector<std::string>* AStarAlgo<T>::backtrace(State<T>* state) {
-    auto v = new std::vector<std::string>();
-    auto s = state;
-    while (s->getFather() != nullptr) {
-        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
-        s = s->getFather();
-    }
-    return v;
 }
 
 // Manhatan calc
