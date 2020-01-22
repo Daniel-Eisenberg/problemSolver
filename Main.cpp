@@ -20,7 +20,7 @@ namespace boot {
             server_side::Server* server = new MyParallelServer(3);
             Solver<string, string>* solver = new StringReverser();
             CacheManager<string,string>* cacheManager = new FilesCacheManager<string,string>(2);
-            ClientHandler* clientHandler = new MyTestClientHandler(solver, cacheManager);
+            ClientHandler* clientHandler = new MyClientHandler(solver, cacheManager);
 
             server->open(5400, clientHandler);
 
