@@ -52,23 +52,38 @@ bool Matrix::isGoalState() {
 void Matrix::setInitialState() {
     myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
     //set for the first time
-    down = new myPoint(1, 0, this->matrix->at(1).at(0));
-    right = new myPoint(0, 1, this->matrix->at(0).at(1));
     this->all_possible_states = new std::vector<State<myPoint> *>();
-    auto s1 = new State<myPoint>(right, right->value, nullptr);
-    auto s2 = new State<myPoint>(down, down->value, nullptr);
     this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(s2);
-    this->all_possible_states->push_back(s1);
+    //matrix has more then one line
+    if (this->matrix->size() > 1) {
+        down = new myPoint(1, 0, this->matrix->at(1).at(0));
+        auto s2 = new State<myPoint>(down, down->value, nullptr);
+        this->all_possible_states->push_back(s2);
+        std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
+        std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
+        this->all_saved_states->insert(pair2);
+
+    }
+    else {
+        this->all_possible_states->push_back(nullptr);
+    }
+    //matrix has more then one column
+    if (this->matrix->at(0).size() > 1) {
+        right = new myPoint(0, 1, this->matrix->at(0).at(1));
+        auto s1 = new State<myPoint>(right, right->value, nullptr);
+        this->all_possible_states->push_back(s1);
+        std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
+        std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
+        this->all_saved_states->insert(pair1);
+
+    } else {
+        this->all_possible_states->push_back(nullptr);
+    }
+
+
     this->all_possible_states->push_back(nullptr);
-    std::pair<int, int> pair_s1 (s1->getState()->x, s1->getState()->y);
-    std::pair<int, int> pair_s2 (s2->getState()->x, s2->getState()->y);
     std::pair<int, int> pair_s3 (0, 0);
-    std::pair<std::pair<int, int>, State<myPoint>*> pair1(pair_s1, s1);
-    std::pair<std::pair<int, int>, State<myPoint>*> pair2(pair_s2, s2);
     std::pair<std::pair<int, int>, State<myPoint>*> pair3(pair_s3, this->state);
-    this->all_saved_states->insert(pair1);
-    this->all_saved_states->insert(pair2);
     this->all_saved_states->insert(pair3);
 
 }
