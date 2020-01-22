@@ -7,7 +7,6 @@
 
 #include "queue"
 #include "Searcher.h"
-//#include "Matrix.h"
 #include <set>
 #include <iostream>
 
@@ -19,7 +18,6 @@ class AStarAlgo : public Searcher<T>  {
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
     virtual std::vector<std::string>* backtrace(State<T>* state);
-    virtual State<T>* popOpenList();
     float heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y);
 };
 
@@ -30,19 +28,18 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
     s->setVisit(s->getState());
     open_pq.insert(s->getState());
     while (!open_pq.empty()) {
-        State<T> *q = popOpenList();
+        State<T> *q = *open_pq.begin();
+        open_pq.erase(open_pq.begin());
         closed.insert(q);
         s->updateState(q);
-        cout << "q set x=" << q->getState()->x << ", y=" << q->getState()->y << endl;
 
-        vector<State<T>*>* nbrs = s->getAllPossibleStates();
+        vector<State<T>*>* neighbors = s->getAllPossibleStates();
         for (int i = 0; i < 4; ++i) {
-            State<T>* nbr = nbrs->at(i);
-            if (nbr == NULL)
+            State<T>* nbr = neighbors->at(i);
+            if (nbr == nullptr || nbr->getValue() == -1)
                 continue;
 
             if (s->isGoalState(*nbr)) {
-                cout << "GOAL!!!" << endl;
                 nbr->setFather(q);
                 return this->backtrace(nbr);
             }
@@ -54,7 +51,6 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 if (nbr->astarF == -1 || nbr->astarF > newF) {
                     nbr->setFather(q);
                     open_pq.insert(nbr);
-                    cout << "nbr added to pq x=" << nbr->getState()->x << ", y=" << nbr->getState()->y << endl;
 
                     nbr->astarG = newG;
                     nbr->astarH = newH;
@@ -77,15 +73,7 @@ std::vector<std::string>* AStarAlgo<T>::backtrace(State<T>* state) {
     return v;
 }
 
-
-template <typename T>
-State<T>* AStarAlgo<T>::popOpenList() {
-    this->nodesEvaluated++;
-    auto res = *open_pq.begin();
-    open_pq.erase(open_pq.begin());
-    return res;
-}
-
+// Manhatan calc
 template <typename T>
 float AStarAlgo<T>::heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y) {
     return std::abs(cur_x - goal_x) + std::abs(cur_y - goal_y);

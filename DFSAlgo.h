@@ -31,7 +31,9 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
             s->setVisit(s->getState());
 
             for (State<T>* state: *s->getAllPossibleStates()) {
-                if (state != nullptr && !s->visited(state)) {
+                if (state == nullptr || state->getValue() == -1)
+                    continue;
+                if (!s->visited(state)) {
                     this->nodesEvaluated++;
                     state->setFather(s->getState());
                     algo_stack.push(state);

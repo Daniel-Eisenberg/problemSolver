@@ -70,4 +70,5 @@ int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* 
     }
     close_server = false;
     cv.notify_all();
+    return 0;
 }

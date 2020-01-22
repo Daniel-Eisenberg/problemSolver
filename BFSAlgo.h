@@ -27,7 +27,9 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
     while (!bfs_queue.empty()) {
 
         for (State<T>* state : *s->getAllPossibleStates()) {
-            if (state != nullptr && !s->visited(state)) {
+            if (state == nullptr || state->getValue() == -1)
+                continue;
+            if (!s->visited(state)) {
                 s->setVisit(state);
                 state->setFather(s->getState());
                 bfs_queue.push(state);
