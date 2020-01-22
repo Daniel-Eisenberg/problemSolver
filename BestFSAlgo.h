@@ -30,13 +30,6 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
     while (!open_pq.empty()) {
         State<T>* n = *(min_element(open_pq.begin(), open_pq.end(),
                 [] (State<T> *left, State<T> *right) -> bool {
-                    if (*left->value == -1 && *right->value == -1)
-                        return false;
-                    else if (*left->value == -1) {
-                        return true;
-                    } else if (*right->value == -1) {
-                        return false;
-                    }
                     return left->getValue() < right->getValue();
                     }));
 
@@ -47,9 +40,9 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
         s->updateState(n);
 
         for (State<T>* state: *s->getAllPossibleStates()) {
-            if (state == NULL)
+            if (state == nullptr || state->getValue() == -1)
                 continue;
-            if (!closed.count(state) > 0 && !open_pq.count(state) > 0 && !state->visited) {
+            if (!(closed.count(state) > 0) && !(open_pq.count(state) > 0) && !state->visited) {
                 this->nodesEvaluated++;
                 s->setVisit(state);
                 state->setFather(n);
@@ -57,7 +50,7 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
             }
             else if (bestBacktrace == -1 || bestBacktrace > (tempBacktrace = this->backtrace(state)->size())){
                 bestBacktrace = tempBacktrace;
-                if (!open_pq.count(state) > 0) {
+                if (!(open_pq.count(state) > 0)) {
                     open_pq.insert(state);
                 }
             }
@@ -66,9 +59,9 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
         closed.insert(n);
     }
 
-    vector<std::string> NOT_FOUND;
-    NOT_FOUND.push_back("NOT_FOUND");
-    return &NOT_FOUND;
+    vector<string>* NOT_FOUND = new vector<string>;
+    NOT_FOUND->push_back("NOT_FOUND");
+    return NOT_FOUND;
 }
 
 template <typename T>

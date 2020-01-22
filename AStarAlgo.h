@@ -33,10 +33,10 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
         closed.insert(q);
         s->updateState(q);
 
-        vector<State<T>*>* nbrs = s->getAllPossibleStates();
+        vector<State<T>*>* neighbors = s->getAllPossibleStates();
         for (int i = 0; i < 4; ++i) {
-            State<T>* nbr = nbrs->at(i);
-            if (nbr == NULL)
+            State<T>* nbr = neighbors->at(i);
+            if (nbr == nullptr || nbr->getValue() == -1)
                 continue;
 
             if (s->isGoalState(*nbr)) {

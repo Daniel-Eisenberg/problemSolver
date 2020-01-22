@@ -31,7 +31,7 @@ public:
     virtual void updateState(State<myPoint> *next);
     virtual void setVisit(State<myPoint> *s);
     virtual State<myPoint>* getState();
-    void updatedirection(std::pair<int, int> point, std::string _case);
+    void updateDirection(std::pair<int, int> point, std::string _case);
     bool visited(State<myPoint>* p);
     void setInitialState();
     ~Matrix(){};
@@ -102,7 +102,7 @@ void Matrix::setInitialState() {
 
 }
 
-void Matrix::updatedirection(std::pair<int, int> point, std::string _case) {
+void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
 
     //set point
     int location = 0;
@@ -150,25 +150,25 @@ void Matrix::setAllPossibleStates() {
     //check up
     std::pair<int, int> point;
     if (has_up) {
-        updatedirection(point, "up");
+        updateDirection(point, "up");
     } else {
         this->all_possible_states->at(0) = nullptr;
     }
     //check down
     if (has_down) {
-        updatedirection(point, "down");
+        updateDirection(point, "down");
     } else {
         this->all_possible_states->at(1) = nullptr;
     }
     //check right
     if (has_right) {
-        updatedirection(point, "right");
+        updateDirection(point, "right");
     } else {
         this->all_possible_states->at(2) = nullptr;
     }
     //check left
     if (has_left) {
-        updatedirection(point, "left");
+        updateDirection(point, "left");
     } else {
         this->all_possible_states->at(3) = nullptr;
     }

@@ -6,7 +6,6 @@
 #include <thread>
 #include "MyParallelServer.h"
 #include "ClientHandler.h"
-#include "MyClientHandler.h"
 
 using namespace std;
 
@@ -80,6 +79,7 @@ int MyParallelServer::handleClients(const int& socket, const sockaddr_in& addres
     }
     close_server_par = false;
     cv_par.notify_all();
+    return 0;
 }
 
 void MyParallelServer::parallelHandleClient(const int& client_socket, ClientHandler* client_handler) {

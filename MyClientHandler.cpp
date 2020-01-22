@@ -1,14 +1,13 @@
-////
-//// Created by Daniel Eisenberg on 12/01/2020.
-////
 //
+// Created by Daniel Eisenberg on 12/01/2020.
+//
+
 #include <ostream>
 #include <sys/socket.h>
 #include <iostream>
 #include <zconf.h>
 #include <vector>
 #include "MyClientHandler.h"
-#include "md5.h"
 #include "MyParallelServer.h"
 
 using namespace std;
@@ -31,7 +30,6 @@ void MyClientHandler::handleClient(int client_socket) {
         matrix_str.append("\n");
     }
 
-//    vector<vector<int>> matrix = reconstructMatrix(s);
     if (cm->isExists(matrix_str)) {
         result = cm->get(matrix_str);
     } else {
