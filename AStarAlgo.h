@@ -32,6 +32,8 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
         open_pq.erase(open_pq.begin());
         closed.insert(q);
         s->updateState(q);
+        s->setVisit(q);
+
 
         vector<State<T>*>* neighbors = s->getAllPossibleStates();
         for (int i = 0; i < 4; ++i) {
@@ -50,6 +52,7 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 double newF = newG + newH;
                 if (nbr->astarF == -1 || nbr->astarF > newF) {
                     nbr->setFather(q);
+
                     open_pq.insert(nbr);
 
                     nbr->astarG = newG;

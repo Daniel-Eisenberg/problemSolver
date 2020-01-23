@@ -50,19 +50,31 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(mat
     this->goalState = goal_state;
 };
 
-
+/**
+ * check wether we are in the last node of th graph
+ * @return true if we are at the last node of the graph false otherwise
+ */
 bool Matrix::isGoalState() {
     return (*this->state == *this->goalState);
 }
-
+/**
+ * check wether a node is the last node of th graph
+ * @param dest
+ * @return true if dest is the last node of the graph false otherwise
+ */
 bool Matrix::isGoalState(State<myPoint> dest) {
     return (dest == *this->goalState);
 }
-
+/**
+ * @return the last node of the graph
+ */
 State<myPoint>* Matrix::getGoalState() {
     return this->goalState;
 }
 
+/**
+ * set the nighbors of the first node of the graph.
+ */
 void Matrix::setInitialState() {
     myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
     //set for the first time
@@ -102,6 +114,11 @@ void Matrix::setInitialState() {
 
 }
 
+/**
+ * set the given neighbors
+ * @param point pair to work with, just for conviniency
+ * @param _case the neighbors to update
+ */
 void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
 
     //set point
@@ -139,10 +156,10 @@ void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
  * index 1 - down
  * index 2 - right
  * index 3 - left
+ * update the neighbors of a node in the graph
  */
 void Matrix::setAllPossibleStates() {
 
-    //myPoint *up = nullptr, *left = nullptr, *down = nullptr, *right = nullptr;
     bool has_up = this->state->getState()->x - 1 >= 0;
     bool has_down = this->state->getState()->x + 1 <= this->matrix->size() - 1;
     bool has_left = this->state->getState()->y - 1 >= 0;
@@ -174,26 +191,42 @@ void Matrix::setAllPossibleStates() {
     }
 
 }
-
+/**
+ * @return all neighbors to the current node
+ */
 std::vector<State<myPoint>*>* Matrix::getAllPossibleStates() {
     return this->all_possible_states;
 }
 
+/**
+ * check if a given node has been visited
+ * @param p the node
+ * @return true if it has been visited false otherwise
+ */
 bool Matrix::visited(State<myPoint> *p) {
     return p->visited;
 }
 
-
+/**
+ * change the current node to a given node
+ * @param next the given node
+ */
 void Matrix::updateState(State<myPoint> *next) {
 
     this->state = next;
     setAllPossibleStates();
 }
-
+/**
+ * update that a given node has been visited and update the counter thats incharge of counting the number of nodes visited by the algorithm
+ * @param s
+ */
 void Matrix::setVisit(State<myPoint> *s) {
+    this->nodesEvaluated++;
     s->setVisit();
 }
-
+/**
+ * @return the current node
+ */
 State<myPoint>* Matrix::getState() {
     return this->state;
 }

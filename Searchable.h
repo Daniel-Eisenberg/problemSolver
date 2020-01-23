@@ -19,6 +19,7 @@ protected:
     State<S>* state;
 
 public:
+    int nodesEvaluated = 0;
     virtual State<S>* getGoalState() = 0;
     virtual bool isGoalState() = 0;
     virtual bool isGoalState(State<myPoint> dest) = 0;

@@ -37,18 +37,55 @@ namespace boot {
 int main(){
     //boot::Main main;
     //return main.main();
-    vector<vector<int>> vec = {{1,999,100},
-                               {0,5,6},
-                               {1000,5,6}};
-    Matrix* a = new Matrix(&vec);
-//    AStarAlgo<myPoint> *t = new AStarAlgo<myPoint>();
-    BestFSAlgo<myPoint> *t = new BestFSAlgo<myPoint>();
-    std::vector<string> *str = t->search(a);
-
-    for (auto r: *str) {
-        cout << r << " ";
+    srand(time(NULL));
+    vector<vector<int>> vec;
+    for (int i = 0; i < 4; i++) {
+        vector<int> tmpvec;
+        for (int j = 0; j < 4; j++) {
+            tmpvec.push_back(rand() % 21);
+        }
+        vec.push_back(tmpvec);
     }
-    cout << endl;
+    vector<vector<int>> vec1 = vec;
+    vector<vector<int>> vec2 = vec;
+    vector<vector<int>> vec3 = vec;
+
+    auto a = new Matrix(&vec);
+    auto b = new Matrix(&vec1);
+    auto c = new Matrix(&vec2);
+    auto d = new Matrix(&vec3);
+    auto t = new DFSAlgo<myPoint>();
+    auto t1 = new BFS<myPoint>();
+    auto t2 = new AStarAlgo<myPoint>();
+    auto t3 = new BestFSAlgo<myPoint>();
+
+
+    std::vector<string> *str = t->search(a);
+    std::vector<string> *str1 = t1->search(b);
+    std::vector<string> *str2 = t2->search(c);
+    std::vector<string> *str3 = t3->search(d);
+
+
+    for (int i = 0; i < vec.size(); i++) {
+        for (int j = 0; j < vec.size(); j++) {
+            cout << vec.at(i).at(j) << ", ";
+        }
+        cout << endl;
+    }
+
+    cout << "BFS " << b->nodesEvaluated << endl;
+    cout << "DFS " << a->nodesEvaluated << endl;
+    cout << "BestFS " << d->nodesEvaluated << endl;
+    cout << "Astar " << c->nodesEvaluated << endl;
+
+//    for (auto s : *str2) {
+//        cout << s << ",";
+//    }
+//    for (auto s : *str2) {
+//        cout << s << ",";
+//    }
+
+
 
     //test for OA
 //    OA<string,string>* a = new OA<string,string>();
