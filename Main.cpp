@@ -39,9 +39,9 @@ int main(){
     //return main.main();
     srand(time(NULL));
     vector<vector<int>> vec;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 5; i++) {
         vector<int> tmpvec;
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < 5; j++) {
             tmpvec.push_back(rand() % 21);
         }
         vec.push_back(tmpvec);
@@ -51,25 +51,34 @@ int main(){
     vector<vector<int>> vec3 = vec;
 
     auto po = new myPoint(0,0, vec.at(0).at(0));
-    auto poE = new myPoint(1,1, vec.at(1).at(1));
+    auto poE = new myPoint(4,4, vec.at(4).at(4));
     auto start = new State<myPoint>(po, po->value, nullptr);
     auto end = new State<myPoint>(poE, poE->value, nullptr);
 
+    auto start1 = new State<myPoint>(po, po->value, nullptr);
+    auto end1 = new State<myPoint>(poE, poE->value, nullptr);
 
-    //auto a = new Matrix(&vec);
+    auto start2 = new State<myPoint>(po, po->value, nullptr);
+    auto end2 = new State<myPoint>(poE, poE->value, nullptr);
+
+    auto start3 = new State<myPoint>(po, po->value, nullptr);
+    auto end3 = new State<myPoint>(poE, poE->value, nullptr);
+
+
+    auto a = new Matrix(&vec, start1, end1);
     auto b = new Matrix(&vec1, start, end);
-//    auto c = new Matrix(&vec2);
-//    auto d = new Matrix(&vec3);
-    //auto t = new DFSAlgo<myPoint>();
-    BFS<myPoint>* t1 = new BFS<myPoint>();
-//    auto t2 = new AStarAlgo<myPoint>();
-//    auto t3 = new BestFSAlgo<myPoint>();
+    auto c = new Matrix(&vec2, start2, end2);
+    auto d = new Matrix(&vec3, start3, end3);
+    auto t = new DFSAlgo<myPoint>();
+    auto t1 = new BFS<myPoint>();
+    auto t2 = new AStarAlgo<myPoint>();
+    auto t3 = new BestFSAlgo<myPoint>();
 
 
-    //std::vector<string> *str = t->search(a);
+    std::vector<string> *str = t->search(a);
     std::vector<string> *str1 = t1->search(b);
-//    std::vector<string> *str2 = t2->search(c);
-//    std::vector<string> *str3 = t3->search(d);
+    std::vector<string> *str2 = t2->search(c);
+    std::vector<string> *str3 = t3->search(d);
 
 
     for (int i = 0; i < vec.size(); i++) {
@@ -78,14 +87,46 @@ int main(){
         }
         cout << endl;
     }
+    cout << endl;
 
-    cout << "BFS " << b->nodesEvaluated << endl;
-    //cout << "DFS " << a->nodesEvaluated << endl;
-    //cout << "BestFS " << d->nodesEvaluated << endl;
-    //cout << "Astar " << c->nodesEvaluated << endl;
-
+    cout << "BFS Efficiency: " << b->nodesEvaluated << endl;
     int i = 0;
     for (auto s : *str1) {
+
+        cout << s;
+        if (i > 1)
+            cout << ", ";
+        i++;
+    }
+    cout << endl << endl;
+
+    cout << "DFS Efficiency: " << a->nodesEvaluated << endl;
+
+    i = 0;
+    for (auto s : *str) {
+
+        cout << s;
+        if (i > 1)
+            cout << ", ";
+        i++;
+    }
+    cout << endl << endl;
+
+    cout << "BestFS Efficiency: " << d->nodesEvaluated << endl;
+    i = 0;
+    for (auto s : *str3) {
+
+        cout << s;
+        if (i > 1)
+            cout << ", ";
+        i++;
+    }
+    cout << endl << endl;
+
+    cout << "Astar Efficiency: " << c->nodesEvaluated << endl;
+
+    i = 0;
+    for (auto s : *str2) {
 
         cout << s;
         if (i > 1)
