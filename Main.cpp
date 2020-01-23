@@ -39,9 +39,11 @@ int main(){
     //return main.main();
     srand(time(NULL));
     vector<vector<int>> vec;
-    for (int i = 0; i < 5; i++) {
+    ////////////////////////////
+    for (int i = 0; i < 3; i++) {
         vector<int> tmpvec;
-        for (int j = 0; j < 5; j++) {
+        /////////////////////////
+        for (int j = 0; j < 3; j++) {
             tmpvec.push_back(rand() % 21);
         }
         vec.push_back(tmpvec);
@@ -50,8 +52,10 @@ int main(){
     vector<vector<int>> vec2 = vec;
     vector<vector<int>> vec3 = vec;
 
+    ////////////////////////////
     auto po = new myPoint(0,0, vec.at(0).at(0));
-    auto poE = new myPoint(4,4, vec.at(4).at(4));
+    //////////////////////////
+    auto poE = new myPoint(2,2, vec.at(2).at(2));
     auto start = new State<myPoint>(po, po->value, nullptr);
     auto end = new State<myPoint>(poE, poE->value, nullptr);
 
