@@ -21,12 +21,16 @@ public:
 
 template <typename P>
 std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
+    int cost = 0;
     auto v = new std::vector<std::string>();
     auto s = state;
     while (s->getFather() != nullptr) {
+        cost += s->getValue();
         v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
         s = s->getFather();
     }
+    std::string a = "cost: " + std::to_string(cost);
+    v->insert(v->begin(), a);
     return v;
 }
 
