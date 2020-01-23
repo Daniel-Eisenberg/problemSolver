@@ -25,6 +25,7 @@ static std::condition_variable cv;
 class MySerialServer : public Server {
     virtual int open(int port, ClientHandler* clinethandler);
     virtual void close();
+    virtual ~MySerialServer(){};
 
 public:
     static bool getCloseServer();

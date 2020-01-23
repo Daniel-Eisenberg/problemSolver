@@ -24,7 +24,7 @@ public:
     T* getState();
     int getValue();
     void setFather(State<T>* f);
-    std::string getDirection(T* state);
+    std::string getDirection(T* s);
     double astarF = -1,astarH,astarG;
 };
 
@@ -93,12 +93,12 @@ void State<T>::setFather(State<T> *f) {
     this->father = f;
 }
 template <typename T>
-std::string State<T>::getDirection(T *state) {
-    if(*this->getState() < *state) {
+std::string State<T>::getDirection(T *s) {
+    if(*this->getState() < *s) {
         return "left";
-    } else if (*this->getState() > *state)
+    } else if (*this->getState() > *s)
         return "right";
-    else if (*this->getState() << *state)
+    else if (*this->getState() << *s)
         return "up";
     else
         return "down";

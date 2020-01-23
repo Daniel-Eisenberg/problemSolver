@@ -72,6 +72,8 @@ public:
         arr.push_back(str);
         return arr;
     };
+
+    virtual ~OA() = default;
 };
 
 

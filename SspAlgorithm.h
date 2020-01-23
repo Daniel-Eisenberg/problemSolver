@@ -14,6 +14,9 @@ template <typename P>
 class SspAlgorithm : public Searcher<P>{
 protected:
     std::vector<std::string>* backtrace(State<P>* state);
+
+public:
+    virtual ~SspAlgorithm() = default;
 };
 
 template <typename P>
