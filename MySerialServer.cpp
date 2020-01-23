@@ -10,7 +10,12 @@
 using namespace std;
 
 int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
-
+/**
+ * open a server in a unique thread
+ * @param port for the server socket
+ * @param client_handler unique object to handle the clients of the server
+ * @return
+ */
 int MySerialServer::open(int port, ClientHandler* client_handler) {
 
 
@@ -43,18 +48,28 @@ int MySerialServer::open(int port, ClientHandler* client_handler) {
 }
 
 
-
+/**
+ * close the server thread
+ */
 void MySerialServer::close() {
     close_server = true;
     unique_lock<std::mutex> ul(mtx);
     cv.wait(ul, []{return !close_server;});
     ::close(socket1);
 }
-
+/**
+ * @return true if the server should be closed
+ */
 bool MySerialServer::getCloseServer() {
     return close_server;
 }
-
+/**
+ * function that runs from the server as a unique thread
+ * @param socket file descriptor of the client
+ * @param address
+ * @param client_handler
+ * @return
+ */
 int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler) {
     while(!MySerialServer::getCloseServer()) {
         struct timeval tv;

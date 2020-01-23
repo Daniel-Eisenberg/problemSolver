@@ -36,11 +36,22 @@ State<T>::State(T *state, int val, State<T> *father) {
     this->visited = false;
 }
 
+/**
+ * the operator compares two nodes in the graph
+ * @tparam T
+ * @param s
+ * @return
+ */
 template <typename T>
 bool State<T>::operator==(const State<T>& s) const{
     return *this->state == *s.state;
 }
-
+/**
+ *
+ * @tparam T
+ * @param s
+ * @return
+ */
 template <typename T>
 bool State<T>::operator<(const State<T>& s) const{
     if (*this->value == -1 && *s.value == -1)
@@ -52,7 +63,11 @@ bool State<T>::operator<(const State<T>& s) const{
     }
     return *this->value > *s.value;
 }
-
+/**
+ *
+ * --------- setters and getters --------
+ *
+ */
 template <typename T>
 void State<T>::setVisit() {
     this->visited = true;
@@ -77,7 +92,6 @@ template <typename T>
 void State<T>::setFather(State<T> *f) {
     this->father = f;
 }
-
 template <typename T>
 std::string State<T>::getDirection(T *state) {
     if(*this->getState() < *state) {

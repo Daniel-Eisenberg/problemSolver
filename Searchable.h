@@ -11,7 +11,10 @@
 #include "State.h"
 #include "Util.h"
 
-
+/**
+ * Searchable Interface
+ * @tparam S the template thar repeasent a node in the graph.
+ */
 template <typename S>
 class Searchable {
 
@@ -29,6 +32,7 @@ public:
     virtual bool visited(State<S>* state) = 0;
     virtual void setVisit(State<S>* state) = 0;
     virtual State<S>* getState() = 0;
+    virtual ~Searchable(){delete state;}
 };
 
 #endif //EX4_SEARCHABLE_H

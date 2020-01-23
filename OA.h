@@ -16,6 +16,11 @@ using namespace std;
 template <typename Problem, typename Solution>
 class OA : public Solver<Problem, Solution> {
 public:
+    /**
+     * instantiate a searcher object and a searchable based on clients messages and return the solution for the problem.
+     * @param problem
+     * @return
+     */
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
         Matrix* matrix = new Matrix(&matrix_vec);
@@ -28,7 +33,11 @@ public:
         result_str = result_str.substr(0, result_str.length() - 1);
         return result_str;
     };
-
+    /**
+     * makes a matrix object from clients messages
+     * @param obj the message from the client
+     * @return matrix
+     */
     vector<vector<int>> reconstructMatrix(string obj) {
         vector<vector<int>> result;
         vector<string> lines = split(obj, "\n");
@@ -47,6 +56,9 @@ public:
         return result;
     };
 
+    /**
+     * split a string by a delimeter in form of a string.
+     */
     vector<string> split(string str, string delimiter){
         vector<string> arr;
         size_t pos = 0;

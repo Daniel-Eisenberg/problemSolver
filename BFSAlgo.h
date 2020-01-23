@@ -16,7 +16,12 @@ class BFS : public SspAlgorithm<T>  {
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
 };
-
+/**
+ * BFS algorithm
+ * @tparam T node in the graph
+ * @param s object that represents the graph
+ * @return the way to go from the first node to destenation
+ */
 template <typename T>
 std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
 
@@ -39,7 +44,7 @@ std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
         bfs_queue.pop();
         s->updateState(bfs_queue.front());
     }
-
+    return this->backtrace(bfs_queue.front());
 }
 
 #endif //EX4_BFS_H

@@ -18,6 +18,12 @@ public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
 };
 
+/**
+ * DFS algorithm
+ * @tparam T node in the graph
+ * @param s object that represents the graph
+ * @return the way to go from the first node to destenation
+ */
 template <typename T>
 std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
 

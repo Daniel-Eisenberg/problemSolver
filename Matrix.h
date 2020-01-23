@@ -34,7 +34,7 @@ public:
     void updateDirection(std::pair<int, int> point, std::string _case);
     bool visited(State<myPoint>* p);
     void setInitialState();
-    ~Matrix(){};
+    ~Matrix();
 };
 
 Matrix::Matrix(std::vector<std::vector<int>> *matrix) : Searchable(), matrix(matrix) {
@@ -231,4 +231,16 @@ State<myPoint>* Matrix::getState() {
     return this->state;
 }
 
+Matrix::~Matrix() {
+    delete matrix;
+    for (State<myPoint>* a : *all_possible_states) {
+        delete a;
+    }
+    delete all_possible_states;
+    for (auto b: *all_saved_states) {
+        delete b.second;
+    }
+    delete all_saved_states;
+    delete goalState;
+}
 #endif //EX4_MATRIX_H

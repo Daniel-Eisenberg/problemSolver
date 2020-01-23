@@ -7,7 +7,9 @@
 
 
 #include "Searcher.h"
-
+/**
+ * class to hold a common function between all the objects that are implementing Searcher interface.
+ */
 template <typename P>
 class SspAlgorithm : public Searcher<P>{
 protected:
