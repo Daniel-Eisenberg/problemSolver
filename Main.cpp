@@ -39,9 +39,9 @@ int main(){
     //return main.main();
     srand(time(NULL));
     vector<vector<int>> vec;
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 2; i++) {
         vector<int> tmpvec;
-        for (int j = 0; j < 15; j++) {
+        for (int j = 0; j < 2; j++) {
             tmpvec.push_back(rand() % 21);
         }
         vec.push_back(tmpvec);
@@ -50,20 +50,26 @@ int main(){
     vector<vector<int>> vec2 = vec;
     vector<vector<int>> vec3 = vec;
 
-    auto a = new Matrix(&vec);
-    auto b = new Matrix(&vec1);
-    auto c = new Matrix(&vec2);
-    auto d = new Matrix(&vec3);
-    auto t = new DFSAlgo<myPoint>();
-    auto t1 = new BFS<myPoint>();
-    auto t2 = new AStarAlgo<myPoint>();
-    auto t3 = new BestFSAlgo<myPoint>();
+    auto po = new myPoint(0,0, vec.at(0).at(0));
+    auto poE = new myPoint(1,1, vec.at(1).at(1));
+    auto start = new State<myPoint>(po, po->value, nullptr);
+    auto end = new State<myPoint>(poE, poE->value, nullptr);
 
 
-    std::vector<string> *str = t->search(a);
+    //auto a = new Matrix(&vec);
+    auto b = new Matrix(&vec1, start, end);
+//    auto c = new Matrix(&vec2);
+//    auto d = new Matrix(&vec3);
+    //auto t = new DFSAlgo<myPoint>();
+    BFS<myPoint>* t1 = new BFS<myPoint>();
+//    auto t2 = new AStarAlgo<myPoint>();
+//    auto t3 = new BestFSAlgo<myPoint>();
+
+
+    //std::vector<string> *str = t->search(a);
     std::vector<string> *str1 = t1->search(b);
-    std::vector<string> *str2 = t2->search(c);
-    std::vector<string> *str3 = t3->search(d);
+//    std::vector<string> *str2 = t2->search(c);
+//    std::vector<string> *str3 = t3->search(d);
 
 
     for (int i = 0; i < vec.size(); i++) {
@@ -74,13 +80,18 @@ int main(){
     }
 
     cout << "BFS " << b->nodesEvaluated << endl;
-    cout << "DFS " << a->nodesEvaluated << endl;
-    cout << "BestFS " << d->nodesEvaluated << endl;
-    cout << "Astar " << c->nodesEvaluated << endl;
+    //cout << "DFS " << a->nodesEvaluated << endl;
+    //cout << "BestFS " << d->nodesEvaluated << endl;
+    //cout << "Astar " << c->nodesEvaluated << endl;
 
-//    for (auto s : *str2) {
-//        cout << s << ",";
-//    }
+    int i = 0;
+    for (auto s : *str1) {
+
+        cout << s;
+        if (i > 1)
+            cout << ", ";
+        i++;
+    }
 //    for (auto s : *str2) {
 //        cout << s << ",";
 //    }

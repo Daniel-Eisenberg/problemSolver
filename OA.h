@@ -23,7 +23,7 @@ public:
      */
     virtual Solution solve(Problem problem) {
         vector<vector<int>> matrix_vec = reconstructMatrix(problem);
-        Matrix* matrix = new Matrix(&matrix_vec);
+        Matrix* matrix = new Matrix(&matrix_vec, nullptr, nullptr);
         Searcher<myPoint>* algo = new BFS<myPoint>();
         vector<string>* result = algo->search(matrix);
         string result_str = "";

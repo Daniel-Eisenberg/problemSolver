@@ -29,7 +29,8 @@ std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
         v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
         s = s->getFather();
     }
-    std::string a = "cost: " + std::to_string(cost);
+    v->insert(v->begin(), "Trace: ");
+    std::string a = "cost: " + std::to_string(cost) + "\n";
     v->insert(v->begin(), a);
     return v;
 }
