@@ -40,14 +40,10 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix, State<myPoint>* start,Stat
     this->state = start;
     this->goalState = _end;
     this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
-    std::pair<int, int> point = make_pair(start->getState()->x, start->getState()->x);
+    std::pair<int, int> point = make_pair(start->getState()->x, start->getState()->y);
     auto pr = make_pair(point, start);
     this->all_saved_states->insert(pr);
-    this->all_possible_states = new std::vector<State<myPoint> *>();
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
+    this->all_possible_states = new std::vector<State<myPoint> *>(4);
     setAllPossibleStates();
 };
 

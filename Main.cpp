@@ -38,16 +38,16 @@ int main(){
     //boot::Main main;
     //return main.main();
     srand(time(NULL));
-    vector<vector<int>> vec;
+    vector<vector<int>> vec = {{5, 14, 9}, {11, 14, 3}, {0, 6, 9}};
     ////////////////////////////
-    for (int i = 0; i < 3; i++) {
-        vector<int> tmpvec;
-        /////////////////////////
-        for (int j = 0; j < 3; j++) {
-            tmpvec.push_back(rand() % 21);
-        }
-        vec.push_back(tmpvec);
-    }
+//    for (int i = 0; i < 3; i++) {
+//        vector<int> tmpvec;
+//        /////////////////////////
+//        for (int j = 0; j < 3; j++) {
+//            tmpvec.push_back(rand() % 21);
+//        }
+//        vec.push_back(tmpvec);
+//    }
     vector<vector<int>> vec1 = vec;
     vector<vector<int>> vec2 = vec;
     vector<vector<int>> vec3 = vec;

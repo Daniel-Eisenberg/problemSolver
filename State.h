@@ -95,13 +95,13 @@ void State<T>::setFather(State<T> *f) {
 template <typename T>
 std::string State<T>::getDirection(T *s) {
     if(*this->getState() < *s) {
-        return "left";
+        return "Left";
     } else if (*this->getState() > *s)
-        return "right";
+        return "Right";
     else if (*this->getState() << *s)
-        return "up";
+        return "Up";
     else
-        return "down";
+        return "Down";
 }
 
 #endif //EX4_STATE_H
