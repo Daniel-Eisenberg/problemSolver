@@ -34,7 +34,7 @@ std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
     }
     auto itr = v->begin();
     for (int i = 0; i < values->size(); i++) {
-        ++itr;
+        itr = v->begin() + 2*i + 1;
         v->insert(itr, "(" + std::to_string(values->at(i)) + ")");
     }
     v->insert(v->begin(), "Trace: ");
