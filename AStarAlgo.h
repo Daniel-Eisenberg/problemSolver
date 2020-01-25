@@ -62,9 +62,7 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                     open_pq.insert(nbr);
             }
         }
-
     }
-
     return this->NOT_FOUND;
 }
 
