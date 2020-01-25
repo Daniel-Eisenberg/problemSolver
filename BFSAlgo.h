@@ -20,7 +20,7 @@ public:
  * BFSAlgo algorithm
  * @tparam T node in the graph
  * @param s object that represents the graph
- * @return the way to go from the first node to destenation
+ * @return the way to go from the first node to destination
  */
 template <typename T>
 std::vector<std::string>* BFSAlgo<T>::search(Searchable<T> *s) {
