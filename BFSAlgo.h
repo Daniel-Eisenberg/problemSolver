@@ -11,19 +11,19 @@
 #include "Matrix.h"
 #include "Util.h"
 template <typename T>
-class BFS : public SspAlgorithm<T>  {
+class BFSAlgo : public SspAlgorithm<T>  {
     std::queue<State<T>*> bfs_queue;
 public:
     virtual std::vector<std::string>* search(Searchable<T>* s);
 };
 /**
- * BFS algorithm
+ * BFSAlgo algorithm
  * @tparam T node in the graph
  * @param s object that represents the graph
  * @return the way to go from the first node to destenation
  */
 template <typename T>
-std::vector<std::string>* BFS<T>::search(Searchable<T> *s) {
+std::vector<std::string>* BFSAlgo<T>::search(Searchable<T> *s) {
 
     s->setVisit(s->getState());
     bfs_queue.push(s->getState());

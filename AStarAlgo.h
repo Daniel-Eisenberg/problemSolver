@@ -46,7 +46,7 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 return this->backtrace(nbr);
             }
 
-            if (!(closed.count(nbr) > 0)) {
+            if (!(closed.count(nbr) > 0) && !(open_pq.count(nbr) > 0)) {
                 double newG = q->astarG + q->getValue();
                 double newH = heuristicCalc(nbr->getState()->x, nbr->getState()->y, s->getGoalState()->getState()->x, s->getGoalState()->getState()->y);
                 double newF = newG + newH;
