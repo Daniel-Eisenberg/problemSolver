@@ -44,8 +44,8 @@ namespace boot {
                 vec_rnd.push_back(tmpvec);
             }
 //            vector<vector<int>> vec = vec_rnd;
-            vector<vector<int>> vec = {{1,1,1},
-                                       {1,99,1},
+            vector<vector<int>> vec = {{1,99,1},
+                                       {1,1,1},
                                        {99,2,10}};
 
 

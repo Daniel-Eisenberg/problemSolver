@@ -57,9 +57,7 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
         closed.insert(n);
     }
 
-    vector<string>* NOT_FOUND = new vector<string>;
-    NOT_FOUND->push_back("NOT_FOUND");
-    return NOT_FOUND;
+    return this->NOT_FOUND;
 }
 
 #endif //EX3_BESTFSALGO_H

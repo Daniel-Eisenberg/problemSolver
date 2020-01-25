@@ -26,11 +26,15 @@ template <typename T>
 std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
     set<State<T>*> closed;
     s->setVisit(s->getState());
+    s->getState()->astarF = heuristicCalc(s->getState()->getPoint()->x, s->getState()->getPoint()->y,
+                                          s->getGoalState()->getPoint()->x,
+                                          s->getGoalState()->getPoint()->y);
     open_pq.insert(s->getState());
     while (!open_pq.empty()) {
-        State<T> *q = *open_pq.begin();
-        open_pq.erase(open_pq.begin());
-        closed.insert(q);
+        State<T>* q = *(min_element(open_pq.begin(), open_pq.end(),
+                                    [] (State<T> *left, State<T> *right) -> bool {
+                                        return left->astarF < right->astarF; }));
+        open_pq.erase(q);
         s->updateState(q);
         s->setVisit(q);
 
@@ -46,23 +50,22 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
                 return this->backtrace(nbr);
             }
 
-            if (!(closed.count(nbr) > 0) && !(open_pq.count(nbr) > 0)) {
-                double newG = q->astarG + q->getValue();
-                double newH = heuristicCalc(nbr->getState()->x, nbr->getState()->y, s->getGoalState()->getState()->x, s->getGoalState()->getState()->y);
-                double newF = newG + newH;
-                if (nbr->astarF == -1 || nbr->astarF > newF) {
-                    nbr->setFather(q);
+            double tentativeG = q->astarG + nbr->getValue();
+            if (nbr->astarF == -1 || nbr->astarG > tentativeG) {
+                nbr->setFather(q);
 
+                nbr->astarG = tentativeG;
+                nbr->astarH = heuristicCalc(nbr->getPoint()->x, nbr->getPoint()->y, q->getPoint()->x, q->getPoint()->y);
+                nbr->astarF = nbr->astarG + nbr->astarH;
+
+                if (!(open_pq.count(nbr) > 0))
                     open_pq.insert(nbr);
-
-                    nbr->astarG = newG;
-                    nbr->astarH = newH;
-                    nbr->astarF = newF;
-                }
             }
         }
 
     }
+
+    return this->NOT_FOUND;
 }
 
 // Manhatan calc

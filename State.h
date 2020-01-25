@@ -21,11 +21,11 @@ public:
     bool operator<(const State<T>& p1) const;
     void setVisit();
     State<T>* getFather();
-    T* getState();
+    T* getPoint();
     int getValue();
     void setFather(State<T>* f);
     std::string getDirection(T* s);
-    double astarF = -1,astarH,astarG;
+    double astarF = -1, astarH = 0, astarG = 0;
 };
 
 template <typename T>
@@ -34,6 +34,7 @@ State<T>::State(T *state, int val, State<T> *father) {
     this->value = val;
     this->father = father;
     this->visited = false;
+    this->astarG = val;
 }
 
 /**
@@ -79,7 +80,7 @@ State<T> * State<T>::getFather() {
 }
 
 template <typename T>
-T* State<T>::getState() {
+T* State<T>::getPoint() {
     return this->state;
 }
 
@@ -94,11 +95,11 @@ void State<T>::setFather(State<T> *f) {
 }
 template <typename T>
 std::string State<T>::getDirection(T *s) {
-    if(*this->getState() < *s) {
+    if(*this->getPoint() < *s) {
         return "Left";
-    } else if (*this->getState() > *s)
+    } else if (*this->getPoint() > *s)
         return "Right";
-    else if (*this->getState() << *s)
+    else if (*this->getPoint() << *s)
         return "Up";
     else
         return "Down";

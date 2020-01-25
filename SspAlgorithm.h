@@ -13,8 +13,12 @@
 template <typename P>
 class SspAlgorithm : public Searcher<P>{
 protected:
+    vector<string>* NOT_FOUND = new vector<string>;
     std::vector<std::string>* backtrace(State<P>* state);
 public:
+    SspAlgorithm(){
+        NOT_FOUND->push_back("NOT_FOUND");
+    };
     virtual ~SspAlgorithm() = default;
 };
 
@@ -29,7 +33,7 @@ std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
     while (s->getFather() != nullptr) {
 //        cost += s->getValue();
         values->insert(values->begin(), s->getValue());
-        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
+        v->insert(v->begin(),s->getDirection(s->getFather()->getPoint()));
         s = s->getFather();
     }
 
