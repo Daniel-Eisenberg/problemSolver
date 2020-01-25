@@ -8,7 +8,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
-#include "BFSAlgo.h"
+#include "AStarAlgo.h"
 #include "Util.h"
 
 using namespace std;
@@ -35,7 +35,7 @@ public:
         State<myPoint>* start_state = reconstructPoint(start_str, matrix_vec);
 
         Matrix* matrix = new Matrix(&matrix_vec, start_state, goal_state);
-        Searcher<myPoint>* algo = new BFSAlgo<myPoint>();
+        Searcher<myPoint>* algo = new AStarAlgo<myPoint>();
         vector<string>* result = algo->search(matrix);
         
         string result_str = "";

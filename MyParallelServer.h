@@ -14,7 +14,7 @@
 
 using namespace server_side;
 
-static int socket2 = socket(AF_INET, SOCK_STREAM, 0);
+static int socket_parallel = socket(AF_INET, SOCK_STREAM, 0);
 static std::mutex mtx_par;
 static bool close_server_par = false;
 static std::condition_variable cv_par;

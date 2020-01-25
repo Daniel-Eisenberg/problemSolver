@@ -10,6 +10,7 @@
 #include "Matrix.h"
 #include "OA.h"
 #include "DFSAlgo.h"
+#include "BFSAlgo.h"
 #include "AStarAlgo.h"
 #include "BestFSAlgo.h"
 
@@ -19,7 +20,7 @@ namespace boot {
     class Main {
     public:
         int main() {
-            server_side::Server* server = new MyParallelServer(3);
+            server_side::Server* server = new MyParallelServer(10);
             Solver<string, string>* solver = new OA<string, string>();
             CacheManager<string,string>* cacheManager = new FilesCacheManager<string,string>(2);
             ClientHandler* clientHandler = new MyClientHandler(solver, cacheManager);
@@ -45,8 +46,8 @@ namespace boot {
             }
 //            vector<vector<int>> vec = vec_rnd;
             vector<vector<int>> vec = {{1,99,1},
-                                       {1,1,1},
-                                       {99,2,10}};
+                                       {1,99,1},
+                                       {0,2,10}};
 
 
             vector<vector<int>> vec1 = vec;
@@ -138,9 +139,9 @@ namespace boot {
 
 int main(){
     boot::Main main;
-    return main.matrixTest();
+//    return main.matrixTest();
 
-//    return main.main();
+    return main.main();
 
 
 
