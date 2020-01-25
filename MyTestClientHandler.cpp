@@ -10,6 +10,10 @@
 
 using namespace std;
 
+/**
+ * A client handler that will return a reversed string
+ * @param client_socket of the connection made by the server
+ */
 void MyTestClientHandler::handleClient(int client_socket) {
     string s = "";
     string result;

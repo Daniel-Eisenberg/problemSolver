@@ -22,6 +22,12 @@ public:
     virtual ~SspAlgorithm() = default;
 };
 
+/**
+ * Backtrace the steps and count the total cost of each one
+ * @tparam P
+ * @param state
+ * @return a vector of the best path UP DOWN RIGHT LEFT
+ */
 template <typename P>
 std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
     int cost = 0;

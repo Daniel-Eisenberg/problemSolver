@@ -14,7 +14,9 @@
 #include "CacheManager.h"
 #include "Solver.h"
 
-
+/**
+ * A client handler that will return a reversed string
+ */
 class MyTestClientHandler : public ClientHandler {
     Solver<string, string>* solver;
     CacheManager<string, string>* cm;

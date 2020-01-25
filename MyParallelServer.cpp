@@ -14,6 +14,12 @@ int MyParallelServer::currentParallel = 0;
 
 int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
 
+/**
+ * Open a connection init client handling
+ * @param port
+ * @param client_handler
+ * @return
+ */
 int MyParallelServer::open(int port, ClientHandler* client_handler) {
     if (socket2 == -1) {
         std::cerr << "Could not create server socket" << std::endl;
@@ -38,25 +44,18 @@ int MyParallelServer::open(int port, ClientHandler* client_handler) {
     }
 
     thread clienthandle(handleClients, socket2, address, client_handler);
-
-//        clienthandle.detach();
     clienthandle.join();
     return 0;
 }
 
 
-
-void MyParallelServer::close() {
-    close_server_par = true;
-    unique_lock<std::mutex> ul(mtx_par);
-    cv_par.wait(ul, []{return !close_server_par;});
-    ::close(socket2);
-}
-
-bool MyParallelServer::getCloseServer() {
-    return close_server_par;
-}
-
+/**
+ * Handle multiple clients on the maximum of maxParallel member variable
+ * @param socket
+ * @param address
+ * @param client_handler
+ * @return
+ */
 int MyParallelServer::handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler) {
     vector<thread> threadPool;
     while(!MyParallelServer::getCloseServer()) {
@@ -77,11 +76,40 @@ int MyParallelServer::handleClients(const int& socket, const sockaddr_in& addres
             currentParallel++;
         }
     }
+
+    // Detach all the active threads
+    for (int i = 0; i < threadPool.size(); ++i) {
+        threadPool.at(i).detach();
+    }
+
     close_server_par = false;
     cv_par.notify_all();
     return 0;
 }
 
+/**
+ * Init a signle client handling
+ */
 void MyParallelServer::parallelHandleClient(const int& client_socket, ClientHandler* client_handler) {
     client_handler->handleClient(client_socket);
 }
+
+/**
+ * This method will use unique lock to terminate the operation of the server
+ */
+void MyParallelServer::close() {
+    close_server_par = true;
+    unique_lock<std::mutex> ul(mtx_par);
+    cv_par.wait(ul, []{return !close_server_par;});
+    ::close(socket2);
+}
+
+/**
+ * Getter of close_server_par
+ * @return close_server_par
+ */
+bool MyParallelServer::getCloseServer() {
+    return close_server_par;
+}
+
+

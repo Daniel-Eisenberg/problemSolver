@@ -48,7 +48,7 @@ bool State<T>::operator==(const State<T>& s) const{
     return *this->state == *s.state;
 }
 /**
- *
+ * override the < operator
  * @tparam T
  * @param s
  * @return

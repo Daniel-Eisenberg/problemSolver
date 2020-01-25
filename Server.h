@@ -9,6 +9,9 @@
 
 namespace server_side {
 
+    /**
+     * An interface for all the servers to implement
+     */
     class Server {
 
     public:
