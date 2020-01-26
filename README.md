@@ -1,5 +1,7 @@
 # Problem Solver
 
+#### https://github.com/Daniel-Eisenberg/problemSolver
+
 Our program contains server to handle multiple clients, our ```ClientHandler``` is the class that handles each clients requests. each client can send a problem that the server will solve and send the answer back to the client.
 In order to solve the problem the ```ClientHandler``` have a member of type ```Solver```.
 
