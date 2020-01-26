@@ -14,10 +14,7 @@
 
 using namespace server_side;
 
-static int socket_parallel = socket(AF_INET, SOCK_STREAM, 0);
-static std::mutex mtx_par;
-static bool close_server_par = false;
-static std::condition_variable cv_par;
+static int server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
 class MyParallelServer : public Server {
     static int maxParallel;
@@ -29,8 +26,7 @@ public:
     MyParallelServer(int maxParallelArg) {
         this->maxParallel = maxParallelArg;
     };
-    static bool getCloseServer();
-    int static handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
+    int static handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler, Server* server);
     void static parallelHandleClient(const int& client_socket, ClientHandler* client_handler);
     };
 

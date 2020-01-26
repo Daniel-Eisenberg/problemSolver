@@ -23,6 +23,7 @@ public:
      */
     virtual Solution solve(Problem problem) {
         vector<string> lines = split(problem, "\n");
+        /** Parse start, goal points and the matrix from string to their object holders */
         lines.pop_back();
         int size = lines.size();
         string goal_str = lines.at(size - 1);
@@ -30,7 +31,6 @@ public:
         lines.pop_back();
         lines.pop_back();
         vector<vector<int>> matrix_vec = reconstructMatrix(&lines);
-
         State<myPoint>* goal_state = reconstructPoint(goal_str, matrix_vec);
         State<myPoint>* start_state = reconstructPoint(start_str, matrix_vec);
 
@@ -51,6 +51,12 @@ public:
         return result_str;
     };
 
+    /**
+     * Create a point from a string and a matrix
+     * @param line
+     * @param matrix_vec
+     * @return
+     */
     State<myPoint>* reconstructPoint(string line, vector<vector<int>> matrix_vec) {
         vector<string> line_str = split(line, ",");
         int x = stoi(line_str.at(0));
