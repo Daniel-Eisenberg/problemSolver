@@ -42,9 +42,11 @@ std::vector<std::string>* BFSAlgo<T>::search(Searchable<T> *s) {
         if (s->isGoalState())
             return this->backtrace(bfs_queue.front());
         bfs_queue.pop();
+        if (bfs_queue.empty())
+            return this->NOT_FOUND;
         s->updateState(bfs_queue.front());
     }
-    return this->backtrace(bfs_queue.front());
+    return this->NOT_FOUND;
 }
 
 #endif //EX4_BFS_H

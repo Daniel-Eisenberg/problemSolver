@@ -13,6 +13,7 @@ template <typename T>
 class State {
     T* state;
     int value;
+    int accumulated_value;
     State<T>* father;
 public:
     bool visited;
@@ -23,6 +24,8 @@ public:
     State<T>* getFather();
     T* getPoint();
     int getValue();
+    int getAccumulatedValue();
+    int setAccumulatedValue(int accumulated_value);
     void setFather(State<T>* f);
     std::string getDirection(T* s);
     double astarF = -1, astarH = 0, astarG = 0;
@@ -35,6 +38,7 @@ State<T>::State(T *state, int val, State<T> *father) {
     this->father = father;
     this->visited = false;
     this->astarG = val;
+    this->accumulated_value = 0;
 }
 
 /**
@@ -87,6 +91,16 @@ T* State<T>::getPoint() {
 template <typename T>
 int State<T>::getValue() {
     return this->value;
+}
+
+template <typename T>
+int State<T>::getAccumulatedValue() {
+    return this->accumulated_value;
+}
+
+template <typename T>
+int State<T>::setAccumulatedValue(int val) {
+    this->accumulated_value = val;
 }
 
 template <typename T>

@@ -52,6 +52,8 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
             s->updateState(algo_stack.top());
     }
 
+    if (goal == nullptr)
+        return this->NOT_FOUND;
     return this->backtrace(goal);
 
 

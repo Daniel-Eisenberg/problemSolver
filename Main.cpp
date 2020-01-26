@@ -36,18 +36,18 @@ namespace boot {
             srand(time(NULL));
             vector<vector<int>> vec_rnd;
             ////////////////////////////
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 50; i++) {
                 vector<int> tmpvec;
                 /////////////////////////
-                for (int j = 0; j < 3; j++) {
-                    tmpvec.push_back(rand() % 21);
+                for (int j = 0; j < 50; j++) {
+                    tmpvec.push_back(rand() % 10);
                 }
                 vec_rnd.push_back(tmpvec);
             }
-//            vector<vector<int>> vec = vec_rnd;
-            vector<vector<int>> vec = {{1,99,1},
-                                       {1,99,1},
-                                       {0,2,10}};
+            vector<vector<int>> vec = vec_rnd;
+            /*vector<vector<int>> vec = {{5, 1, 1},
+                                       {7, -1, -1},
+                                       {1, -1, 4}};*/
 
 
             vector<vector<int>> vec1 = vec;
@@ -57,7 +57,7 @@ namespace boot {
             ////////////////////////////
             auto po = new myPoint(0,0, vec.at(0).at(0));
             //////////////////////////
-            auto poE = new myPoint(2,2, vec.at(2).at(2));
+            auto poE = new myPoint(49,49, vec.at(49).at(49));
             auto start = new State<myPoint>(po, po->value, nullptr);
             auto end = new State<myPoint>(poE, poE->value, nullptr);
 
@@ -110,7 +110,7 @@ namespace boot {
 
 //    for (auto s : *str2) {
 //        cout << s << ",";
-//    }
+    //}
 
 
 
@@ -118,7 +118,7 @@ namespace boot {
 //    OA<string,string>* a = new OA<string,string>();
 //    std::string str = "1,2,3\n4,5,6\n7,8,9\n";
 //    auto m = a->reconstructMatrix(str);
-        return 0;
+            return 0;
         }
 
         void printStr(vector<string>* str) {
@@ -139,12 +139,11 @@ namespace boot {
 
 int main(){
     boot::Main main;
-//    return main.matrixTest();
-
-    return main.main();
+    return main.matrixTest();
 
 
-
-    return 0;
 
 }
+
+
+

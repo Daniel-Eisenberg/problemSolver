@@ -13,8 +13,9 @@
 template <typename P>
 class SspAlgorithm : public Searcher<P>{
 protected:
-    vector<string>* NOT_FOUND = new vector<string>;
+    std::vector<std::string>* NOT_FOUND = new std::vector<std::string>;
     std::vector<std::string>* backtrace(State<P>* state);
+    int accumulateValue(State<P>* state);
 public:
     SspAlgorithm(){
         NOT_FOUND->push_back("NOT_FOUND");
@@ -57,6 +58,18 @@ std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
 //    std::string a = "cost: " + std::to_string(cost) + "\n";
 //    v->insert(v->begin(), a);
     return final;
+}
+
+template <typename P>
+int SspAlgorithm<P>::accumulateValue(State<P> *state) {
+    int cost = 0;
+    auto s = state;
+    while (s->getFather() != nullptr) {
+        cost += s->getValue();
+
+        s = s->getFather();
+    }
+    return cost;
 }
 
 #endif //EX3_SSPALGORITHM_H

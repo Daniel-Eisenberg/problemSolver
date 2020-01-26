@@ -27,7 +27,6 @@ public:
  */
 template <typename T>
 std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
-    int bestBacktrace = -1;
     int tempBacktrace = 0;
 
     s->setVisit(s->getState());
@@ -36,7 +35,7 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
         // Get the node with minimal value from the open set
         State<T>* n = *(min_element(open_nodes.begin(), open_nodes.end(),
                                     [] (State<T> *left, State<T> *right) -> bool {
-                                    return left->getValue() < right->getValue(); }));
+                                    return left->getAccumulatedValue() < right->getAccumulatedValue();}));
 
         // If goal state was found return backtrace
         if (s->isGoalState(*n)) {
@@ -54,10 +53,11 @@ std::vector<std::string>* BestFSAlgo<T>::search(Searchable<T> *s) {
                 s->setVisit(state);
                 state->setFather(n);
                 open_nodes.insert(state);
+                state->setAccumulatedValue(this->accumulateValue(state));
             }
             // If new best path was found - use it
-            else if (bestBacktrace == -1 || bestBacktrace > (tempBacktrace = this->backtrace(state)->size())){
-                bestBacktrace = tempBacktrace;
+            else if (state->getAccumulatedValue() > (tempBacktrace = this->accumulateValue(s->getState()) + state->getValue())){
+                state->setAccumulatedValue(tempBacktrace);
                 if (!(open_nodes.count(state) > 0)) {
                     open_nodes.insert(state);
                 }
