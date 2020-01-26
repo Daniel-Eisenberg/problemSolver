@@ -6,7 +6,7 @@
 #include "StringReverser.h"
 
 /**
- * Implenetation of solve to reverse a string
+ * Implementation of solve to reverse a string
  * @param prob
  * @return
  */

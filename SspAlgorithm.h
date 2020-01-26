@@ -13,26 +13,54 @@
 template <typename P>
 class SspAlgorithm : public Searcher<P>{
 protected:
+    std::vector<std::string>* NOT_FOUND = new std::vector<std::string>;
     std::vector<std::string>* backtrace(State<P>* state);
-
+    int accumulateValue(State<P>* state);
 public:
+    SspAlgorithm(){
+        NOT_FOUND->push_back("NOT_FOUND");
+    };
     virtual ~SspAlgorithm() = default;
 };
 
+/**
+ * Backtrace the steps and count the total cost of each one
+ * @tparam P
+ * @param state
+ * @return a vector of the best path UP DOWN RIGHT LEFT
+ */
 template <typename P>
 std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
     int cost = 0;
     auto v = new std::vector<std::string>();
+    auto final = new std::vector<std::string>();
+    auto values = new std::vector<int>();
+
+    auto s = state;
+    while (s->getFather() != nullptr) {
+        values->insert(values->begin(), s->getValue());
+        v->insert(v->begin(),s->getDirection(s->getFather()->getPoint()));
+        s = s->getFather();
+    }
+
+    int values_size = values->size();
+    for (int i = 0; i < values_size; i++) {
+        cost += values->at(i);
+        final->push_back(v->at(i) + " (" + std::to_string(cost) + ")");
+    }
+    return final;
+}
+
+template <typename P>
+int SspAlgorithm<P>::accumulateValue(State<P> *state) {
+    int cost = 0;
     auto s = state;
     while (s->getFather() != nullptr) {
         cost += s->getValue();
-        v->insert(v->begin(),s->getDirection(s->getFather()->getState()));
+
         s = s->getFather();
     }
-    v->insert(v->begin(), "Trace: ");
-    std::string a = "cost: " + std::to_string(cost) + "\n";
-    v->insert(v->begin(), a);
-    return v;
+    return cost;
 }
 
 #endif //EX3_SSPALGORITHM_H

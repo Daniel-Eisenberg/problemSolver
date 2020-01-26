@@ -40,14 +40,10 @@ Matrix::Matrix(std::vector<std::vector<int>> *matrix, State<myPoint>* start,Stat
     this->state = start;
     this->goalState = _end;
     this->all_saved_states = new map<std::pair<int,int>, State<myPoint>*>();
-    std::pair<int, int> point = make_pair(start->getState()->x, start->getState()->x);
+    std::pair<int, int> point = make_pair(start->getPoint()->x, start->getPoint()->y);
     auto pr = make_pair(point, start);
     this->all_saved_states->insert(pr);
-    this->all_possible_states = new std::vector<State<myPoint> *>();
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
-    this->all_possible_states->push_back(nullptr);
+    this->all_possible_states = new std::vector<State<myPoint> *>(4);
     setAllPossibleStates();
 };
 
@@ -83,17 +79,17 @@ void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
     //set point
     int location = 0;
     if (_case == "up")
-        point = std::make_pair(this->state->getState()->x - 1, this->state->getState()->y);
+        point = std::make_pair(this->state->getPoint()->x - 1, this->state->getPoint()->y);
     else if (_case == "down") {
-        point = std::make_pair(this->state->getState()->x + 1, this->state->getState()->y);
+        point = std::make_pair(this->state->getPoint()->x + 1, this->state->getPoint()->y);
         location = 1;
     }
     else if (_case == "right") {
-        point = std::make_pair(this->state->getState()->x, this->state->getState()->y + 1);
+        point = std::make_pair(this->state->getPoint()->x, this->state->getPoint()->y + 1);
         location = 2;
     }
     else {
-        point = std::make_pair(this->state->getState()->x, this->state->getState()->y - 1);
+        point = std::make_pair(this->state->getPoint()->x, this->state->getPoint()->y - 1);
         location = 3;
     }
 
@@ -118,11 +114,12 @@ void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
  * update the neighbors of a node in the graph
  */
 void Matrix::setAllPossibleStates() {
-
-    bool has_up = this->state->getState()->x - 1 >= 0;
-    bool has_down = this->state->getState()->x + 1 <= this->matrix->size() - 1;
-    bool has_left = this->state->getState()->y - 1 >= 0;
-    bool has_right = this->state->getState()->y + 1 <= this->matrix->at(0).size() - 1;
+    int matrix_size = this->matrix->size();
+    int matrix_row_size = this->matrix->at(0).size();
+    bool has_up = this->state->getPoint()->x - 1 >= 0;
+    bool has_down = this->state->getPoint()->x + 1 <= matrix_size - 1;
+    bool has_left = this->state->getPoint()->y - 1 >= 0;
+    bool has_right = this->state->getPoint()->y + 1 <= matrix_row_size - 1;
     //check up
     std::pair<int, int> point;
     if (has_up) {

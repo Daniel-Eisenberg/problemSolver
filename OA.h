@@ -8,7 +8,7 @@
 #include "Solver.h"
 #include "Searcher.h"
 #include "Matrix.h"
-#include "BFSAlgo.h"
+#include "AStarAlgo.h"
 #include "Util.h"
 
 using namespace std;
@@ -22,26 +22,58 @@ public:
      * @return
      */
     virtual Solution solve(Problem problem) {
-        vector<vector<int>> matrix_vec = reconstructMatrix(problem);
-        Matrix* matrix = new Matrix(&matrix_vec, nullptr, nullptr);
-        Searcher<myPoint>* algo = new BFS<myPoint>();
+        vector<string> lines = split(problem, "\n");
+        /** Parse start, goal points and the matrix from string to their object holders */
+        lines.pop_back();
+        int size = lines.size();
+        string goal_str = lines.at(size - 1);
+        string start_str = lines.at(size - 2);
+        lines.pop_back();
+        lines.pop_back();
+        vector<vector<int>> matrix_vec = reconstructMatrix(&lines);
+        State<myPoint>* goal_state = reconstructPoint(goal_str, matrix_vec);
+        State<myPoint>* start_state = reconstructPoint(start_str, matrix_vec);
+
+        Matrix* matrix = new Matrix(&matrix_vec, start_state, goal_state);
+        Searcher<myPoint>* algo = new AStarAlgo<myPoint>();
         vector<string>* result = algo->search(matrix);
+        
         string result_str = "";
         for (string str : *result) {
             result_str = result_str + str + ",";
         }
         result_str = result_str.substr(0, result_str.length() - 1);
+
+
+        delete algo;
+        delete result;
+
         return result_str;
     };
+
+    /**
+     * Create a point from a string and a matrix
+     * @param line
+     * @param matrix_vec
+     * @return
+     */
+    State<myPoint>* reconstructPoint(string line, vector<vector<int>> matrix_vec) {
+        vector<string> line_str = split(line, ",");
+        int x = stoi(line_str.at(0));
+        int y = stoi(line_str.at(0));
+        myPoint* po = new myPoint(x,y, matrix_vec.at(x).at(y));
+        State<myPoint>* state = new State<myPoint>(po, po->value, nullptr);
+        return state;
+    }
+
     /**
      * makes a matrix object from clients messages
      * @param obj the message from the client
      * @return matrix
      */
-    vector<vector<int>> reconstructMatrix(string obj) {
+    vector<vector<int>> reconstructMatrix(vector<string>* lines) {
         vector<vector<int>> result;
-        vector<string> lines = split(obj, "\n");
-        for (string line : lines) {
+        for (string line : *lines) {
             if (line != "") {
                 vector<string> line_str = split(line, ",");
                 vector<int> line_int;
@@ -51,7 +83,6 @@ public:
                 }
                 result.push_back(line_int);
             }
-
         }
         return result;
     };

@@ -14,8 +14,14 @@ int MyParallelServer::currentParallel = 0;
 
 int handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler);
 
+/**
+ * Open a connection init client handling
+ * @param port
+ * @param client_handler
+ * @return
+ */
 int MyParallelServer::open(int port, ClientHandler* client_handler) {
-    if (socket2 == -1) {
+    if (server_socket == -1) {
         std::cerr << "Could not create server socket" << std::endl;
         return -1;
     }
@@ -26,62 +32,75 @@ int MyParallelServer::open(int port, ClientHandler* client_handler) {
     address.sin_port = htons(port);
 
     // bind
-    if (::bind(socket2, (struct sockaddr *) &address, sizeof(address)) == -1) {
+    if (::bind(server_socket, (struct sockaddr *) &address, sizeof(address)) == -1) {
         std::cerr << "Could not bind the socket to an ip" << std::endl;
         return -2;
     }
 
     //socket listen to port
-    if (listen(socket2, 1) == -1) {
+    if (listen(server_socket, 1) == -1) {
         std::cerr << "Error during listening" << std::endl;
         return -3;
     }
 
-    thread clienthandle(handleClients, socket2, address, client_handler);
-
-//        clienthandle.detach();
+    thread clienthandle(handleClients, server_socket, address, client_handler, this);
     clienthandle.join();
     return 0;
 }
 
 
-
-void MyParallelServer::close() {
-    close_server_par = true;
-    unique_lock<std::mutex> ul(mtx_par);
-    cv_par.wait(ul, []{return !close_server_par;});
-    ::close(socket2);
-}
-
-bool MyParallelServer::getCloseServer() {
-    return close_server_par;
-}
-
-int MyParallelServer::handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler) {
+/**
+ * Handle multiple clients on the maximum of maxParallel member variable
+ * @param socket
+ * @param address
+ * @param client_handler
+ * @return
+ */
+int MyParallelServer::handleClients(const int& socket, const sockaddr_in& address, ClientHandler* client_handler, Server* server) {
     vector<thread> threadPool;
-    while(!MyParallelServer::getCloseServer()) {
-        if (currentParallel >= maxParallel) {
-            sleep(2000);
-            continue;
+    while(true) {
+        // If we are at maximum capacity of clients,
+        // Wait for the first client to finish to open new space for another client
+        if (currentParallel > maxParallel) {
+            auto t = threadPool.begin();
+            t->join();
+            threadPool.erase(t);
         }
-        struct timeval tv;
-        tv.tv_sec = 2;
-        setsockopt(socket2, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+        // Set a timeout of 2 mins of no connection to server
+        struct timeval tv = {120, 0};
+        setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
         //accept client
         int client_socket = accept(socket, (struct sockaddr *) &address, (socklen_t *) &address);
         if (client_socket == -1) {
             std::cerr << "Error accepting client" << std::endl;
-            return -4;
+            break;
         } else {
             threadPool.push_back(thread(parallelHandleClient, client_socket, client_handler));
             currentParallel++;
         }
     }
-    close_server_par = false;
-    cv_par.notify_all();
+
+    // Join all the active threads to wait for them to finish working
+    for (thread& t : threadPool) {
+        t.join();
+    }
+
+    server->close();
     return 0;
 }
 
+/**
+ * Init a signle client handling
+ */
 void MyParallelServer::parallelHandleClient(const int& client_socket, ClientHandler* client_handler) {
     client_handler->handleClient(client_socket);
 }
+
+/**
+ * Terminate the operation of the server
+ */
+void MyParallelServer::close() {
+    ::close(server_socket);
+}
+
+

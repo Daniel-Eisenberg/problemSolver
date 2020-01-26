@@ -10,13 +10,12 @@ public:
     int x;
     int y;
     int value;
-    bool visited;
+
 
     myPoint(int x, int y, int value) {
         this->x = x;
         this->y = y;
         this->value =value;
-        this->visited = false;
     }
 
     bool operator ==(const myPoint& p) const{

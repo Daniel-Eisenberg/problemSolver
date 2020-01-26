@@ -13,6 +13,7 @@ template <typename T>
 class State {
     T* state;
     int value;
+    int accumulated_value;
     State<T>* father;
 public:
     bool visited;
@@ -21,11 +22,13 @@ public:
     bool operator<(const State<T>& p1) const;
     void setVisit();
     State<T>* getFather();
-    T* getState();
+    T* getPoint();
     int getValue();
+    int getAccumulatedValue();
+    int setAccumulatedValue(int accumulated_value);
     void setFather(State<T>* f);
     std::string getDirection(T* s);
-    double astarF = -1,astarH,astarG;
+    double astarF = -1, astarH = 0, astarG = 0;
 };
 
 template <typename T>
@@ -34,6 +37,8 @@ State<T>::State(T *state, int val, State<T> *father) {
     this->value = val;
     this->father = father;
     this->visited = false;
+    this->astarG = val;
+    this->accumulated_value = 0;
 }
 
 /**
@@ -47,7 +52,7 @@ bool State<T>::operator==(const State<T>& s) const{
     return *this->state == *s.state;
 }
 /**
- *
+ * override the < operator
  * @tparam T
  * @param s
  * @return
@@ -79,7 +84,7 @@ State<T> * State<T>::getFather() {
 }
 
 template <typename T>
-T* State<T>::getState() {
+T* State<T>::getPoint() {
     return this->state;
 }
 
@@ -89,19 +94,29 @@ int State<T>::getValue() {
 }
 
 template <typename T>
+int State<T>::getAccumulatedValue() {
+    return this->accumulated_value;
+}
+
+template <typename T>
+int State<T>::setAccumulatedValue(int val) {
+    this->accumulated_value = val;
+}
+
+template <typename T>
 void State<T>::setFather(State<T> *f) {
     this->father = f;
 }
 template <typename T>
 std::string State<T>::getDirection(T *s) {
-    if(*this->getState() < *s) {
-        return "left";
-    } else if (*this->getState() > *s)
-        return "right";
-    else if (*this->getState() << *s)
-        return "up";
+    if(*this->getPoint() < *s) {
+        return "Left";
+    } else if (*this->getPoint() > *s)
+        return "Right";
+    else if (*this->getPoint() << *s)
+        return "Up";
     else
-        return "down";
+        return "Down";
 }
 
 #endif //EX4_STATE_H

@@ -14,6 +14,11 @@
 
 using namespace std;
 
+/**
+ * Cache manager interface
+ * @tparam P
+ * @tparam S
+ */
 template <typename P, typename S>
 class CacheManager{
     std::unordered_map <std::string, bool> memoryCache;

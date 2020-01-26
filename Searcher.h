@@ -9,6 +9,9 @@
 #include "Util.h"
 #include <string>
 
+/**
+* Searcher Interface
+*/
 template <typename T>
 class Searcher {
 public:

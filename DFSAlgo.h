@@ -29,6 +29,7 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
 
 
     algo_stack.push(s->getState());
+    State<myPoint>* goal = nullptr;
 
     while (!algo_stack.empty()) {
         algo_stack.pop();
@@ -43,13 +44,17 @@ std::vector<std::string>* DFSAlgo<T>::search(Searchable<T> *s) {
                     algo_stack.push(state);
                 }
             }
+            if (s->isGoalState())
+                goal = s ->getState();
 
         }
         if (!algo_stack.empty())
             s->updateState(algo_stack.top());
     }
 
-    return this->backtrace(s->getState());
+    if (goal == nullptr)
+        return this->NOT_FOUND;
+    return this->backtrace(goal);
 
 
 }

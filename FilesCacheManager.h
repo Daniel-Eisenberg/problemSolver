@@ -61,7 +61,11 @@ public:
     }
 };
 
-
+/**
+ * A files cache manager that uses LRU logic
+ * @tparam P
+ * @tparam S
+ */
 template <typename P, typename S>
 class FilesCacheManager : public CacheManager<P,S> {
     int capacity = 0;
@@ -75,6 +79,11 @@ public:
 
     ~FilesCacheManager(){};
 
+    /**
+     * Insert new data into the cache manager
+     * @param problem
+     * @param solution
+     */
     void insert(P problem, S solution) {
         mtx_cm.try_lock();
         string key = hashKey(problem);
@@ -100,7 +109,12 @@ public:
         mtx_cm.unlock();
     }
 
-    string get(P problem) {
+    /**
+     * Get a sulotion from the cache manager
+     * @param problem
+     * @return
+     */
+    S get(P problem) {
         mtx_cm.try_lock();
         string solution;
         string key = hashKey(problem);
@@ -130,6 +144,11 @@ public:
         return solution;
     }
 
+    /**
+     * Check if solution exists for the problem
+     * @param problem
+     * @return
+     */
     bool isExists(P problem) {
         mtx_cm.try_lock();
         string key = hashKey(problem);
@@ -147,6 +166,11 @@ public:
         }
     }
 
+    /**
+     * Hash the problem using a MD5 library, to create a unique identifier key
+     * @param key
+     * @return
+     */
     static string hashKey(P key) {
         return md5(key);
     }
