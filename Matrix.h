@@ -114,11 +114,12 @@ void Matrix::updateDirection(std::pair<int, int> point, std::string _case) {
  * update the neighbors of a node in the graph
  */
 void Matrix::setAllPossibleStates() {
-
+    int matrix_size = this->matrix->size();
+    int matrix_row_size = this->matrix->at(0).size();
     bool has_up = this->state->getPoint()->x - 1 >= 0;
-    bool has_down = this->state->getPoint()->x + 1 <= this->matrix->size() - 1;
+    bool has_down = this->state->getPoint()->x + 1 <= matrix_size - 1;
     bool has_left = this->state->getPoint()->y - 1 >= 0;
-    bool has_right = this->state->getPoint()->y + 1 <= this->matrix->at(0).size() - 1;
+    bool has_right = this->state->getPoint()->y + 1 <= matrix_row_size - 1;
     //check up
     std::pair<int, int> point;
     if (has_up) {

@@ -38,25 +38,16 @@ std::vector<std::string>* SspAlgorithm<P>::backtrace(State<P>* state) {
 
     auto s = state;
     while (s->getFather() != nullptr) {
-//        cost += s->getValue();
         values->insert(values->begin(), s->getValue());
         v->insert(v->begin(),s->getDirection(s->getFather()->getPoint()));
         s = s->getFather();
     }
 
-    for (int i = 0; i < values->size(); i++) {
+    int values_size = values->size();
+    for (int i = 0; i < values_size; i++) {
         cost += values->at(i);
         final->push_back(v->at(i) + " (" + std::to_string(cost) + ")");
     }
-
-//    auto itr = v->begin();
-//    for (int i = 0; i < values->size(); i++) {
-//        itr = v->begin() + 2*i + 1;
-//        v->insert(itr, "(" + std::to_string(values->at(i)) + ")");
-//    }
-//    v->insert(v->begin(), "Trace: ");
-//    std::string a = "cost: " + std::to_string(cost) + "\n";
-//    v->insert(v->begin(), a);
     return final;
 }
 

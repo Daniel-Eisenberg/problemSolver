@@ -76,7 +76,7 @@ std::vector<std::string>* AStarAlgo<T>::search(Searchable<T> *s) {
     return this->NOT_FOUND;
 }
 
-// Manhatan calc
+// Heuristic calculation using manhatan logic
 template <typename T>
 float AStarAlgo<T>::heuristicCalc(int cur_x, int cur_y, int goal_x, int goal_y) {
     return std::abs(cur_x - goal_x) + std::abs(cur_y - goal_y);

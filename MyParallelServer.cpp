@@ -68,9 +68,9 @@ int MyParallelServer::handleClients(const int& socket, const sockaddr_in& addres
         }
         // Set a timeout of 2 mins of no connection to server
         struct timeval tv = {120, 0};
-        setsockopt(server_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+        setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
         //accept client
-        int client_socket = accept(server_socket, (struct sockaddr *) &address, (socklen_t *) &address);
+        int client_socket = accept(socket, (struct sockaddr *) &address, (socklen_t *) &address);
         if (client_socket == -1) {
             std::cerr << "Error accepting client" << std::endl;
             break;

@@ -28,6 +28,10 @@ public:
     virtual void handleClient(int client_socket);
     static vector<vector<int>> reconstructMatrix(string obj);
     static std::vector<string> split(string str, string delimiter);
+    virtual ~MyClientHandler() {
+        delete solver;
+        delete cm;
+    }
 };
 
 
