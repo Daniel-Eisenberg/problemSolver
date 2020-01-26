@@ -9,14 +9,21 @@ the second part of our bridge is the ```searcheable``` which is the data stract 
 
 The problem itself is a matrix we get from the client line by line. Using the A* algorithm we send back the "cheapest" way to move through the matrix from index [0][0] to [row size - 1][column size - 1].
 
+Every answer is saved via the ```FilesCacheManager``` which apart from saving the solution to files also uses LRU logic to hold the last few solutions on the machine ram memory.
 
 
-
-###Run the project:
+# How to run the project
 
 1. Compile and run the project with the code file as an argument.
 2. connect to the server using localhost and port 5600. 
 3. send request in a form of numbers.
 4. send to the server the word "end" when you are done inserting values and you want your problem to be solved.
+
+# External libraries
+
+In this project we have used an external library of md5 hash function created by zedwood.com
+```bash
+http://www.zedwood.com/article/cpp-md5-function
+```
 
 Enjoy!
